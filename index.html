@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Drift | The Quiet Line</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#C4A484', 
+                            hover: '#A68B6F',
+                            foreground: '#FFFFFF'
+                        },
+                        ink: '#1A1A1A',
+                        parchment: '#FDFCF8',
+                        surgical: '#E0E7FF'
+                    },
+                    fontFamily: {
+                        heading: ['Playfair Display', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            scroll-behavior: smooth;
+            background-color: #FDFCF8;
+            color: #1A1A1A;
+        }
+
+        /* Resilient Backgrounds (No Image Dependencies) */
+        .dot-grid {
+            background-image: radial-gradient(#e5e5e0 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.95)), 
+                        radial-gradient(circle at 50% 50%, #2c3e50 0%, #1a1a1a 100%);
+        }
+
+        .surgical-glow {
+            background: radial-gradient(circle at 50% 0%, rgba(224, 231, 255, 0.4) 0%, rgba(253, 252, 248, 0) 70%);
+        }
+
+        .sunrise-accent {
+            background: linear-gradient(180deg, rgba(253, 252, 248, 0) 0%, rgba(196, 164, 132, 0.1) 100%);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(196, 164, 132, 0.15);
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .available-now-btn {
+            background-color: #A68B6F;
+            color: white;
+            box-shadow: 0 10px 20px rgba(166, 139, 111, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .available-now-btn:hover {
+            background-color: #8E755D;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(166, 139, 111, 0.3);
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.02em;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-primary/20 selection:text-ink">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-md border-b border-primary/5">
+        <div class="text-xl font-heading font-black tracking-tight flex items-center gap-1 logo-text">
+            The Quiet <span class="text-primary italic">Line</span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500">
+            <a href="#definition" class="hover:text-ink transition-colors">01 Definition</a>
+            <a href="#audit" class="hover:text-ink transition-colors">02 Diagnosis</a>
+            <a href="#reframe" class="hover:text-ink transition-colors">03 Reframe</a>
+            <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-6 py-2.5 rounded text-white tracking-widest">Available Now</a>
+        </div>
+    </nav>
+
+    <!-- HERO: THE HOOK -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden hero-gradient">
+        <div class="absolute inset-0 surgical-glow"></div>
+        <div class="absolute inset-0 dot-grid opacity-20"></div>
+
+        <div class="relative z-10 max-w-5xl px-8 text-center text-white">
+            <div class="inline-block mb-8 text-[10px] font-bold text-primary uppercase tracking-[0.5em]">
+                A Foundations Master Class
+            </div>
+            <h1 class="font-heading text-6xl md:text-[8rem] leading-[0.85] mb-10 text-balance font-black tracking-tighter">
+                The Day Nobody <br/> <span class="text-primary italic font-bold">Meant to Fail</span>.
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-12 font-light">
+                In 1994, two Black Hawk helicopters were shot down by friendly fire. No one made a single catastrophic decision. Instead, dozens of tiny deviations—<span class="text-white italic font-bold">Practical Drift</span>—created a quiet, devastating certainty.
+            </p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                <a href="#definition" class="bg-primary text-white px-10 py-5 rounded font-bold transition-all hover:bg-primary-hover tracking-tight font-heading text-lg shadow-xl">
+                    Begin The Lecture
+                </a>
+                <a href="#audit" class="text-white px-10 py-5 font-bold tracking-tight font-heading text-lg border-b-2 border-primary/30 hover:border-primary transition-all">
+                    The Drift Audit
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-30">
+            <div class="w-px h-16 bg-white animate-pulse"></div>
+        </div>
+    </header>
+
+    <!-- SECTION 01: THE DEFINITION -->
+    <section id="definition" class="py-40 relative bg-parchment">
+        <div class="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
+            <div class="fade-in-section">
+                <div class="mb-4 text-primary font-bold tracking-[0.4em] uppercase text-[10px]">Segment 01</div>
+                <h2 class="font-heading text-5xl md:text-7xl font-black text-ink mb-10 leading-none">
+                    Drift Is Not a <br/><span class="text-primary italic">Detour</span>.
+                </h2>
+                <div class="space-y-8 text-lg text-gray-600 leading-relaxed font-light">
+                    <p class="text-2xl font-heading text-ink italic leading-tight">"Professional Drift is what happens when you are moving—but not toward anything you chose."</p>
+                    
+                    <div class="grid gap-8 mt-12">
+                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                            <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[10px] mb-2">Reactive Drift</h4>
+                            <p class="text-sm">You stop driving; you start responding. Servicing the engine instead of steering the car.</p>
+                        </div>
+                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                            <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[10px] mb-2">Success Trap Drift</h4>
+                            <p class="text-sm">The applause gets louder the further you walk from yourself. Performance is your cage.</p>
+                        </div>
+                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                            <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[10px] mb-2">Systemic Drift</h4>
+                            <p class="text-sm">The environment changes—your identity hasn't updated. Fighting a war that ended years ago.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative glass-panel rounded-3xl p-12 shadow-2xl flex flex-col justify-center gap-12 bg-white/40">
+                <div class="text-center">
+                    <div class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.5em] mb-12">The Surgical Distinction</div>
+                    <div class="flex items-center justify-around gap-4">
+                        <div class="text-center group">
+                            <div class="text-5xl font-heading font-black text-gray-200 line-through group-hover:text-gray-300 transition-colors">Motion</div>
+                            <div class="mt-4 text-[9px] text-gray-400 font-bold uppercase tracking-widest">Being Busy</div>
+                        </div>
+                        <div class="text-xl font-heading text-primary italic opacity-50">vs</div>
+                        <div class="text-center group">
+                            <div class="text-5xl font-heading font-black text-ink group-hover:text-primary transition-colors">Movement</div>
+                            <div class="mt-4 text-[9px] text-primary font-bold uppercase tracking-widest">Being New</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-px w-full bg-primary/10"></div>
+                <p class="text-center text-sm text-gray-500 italic px-6 leading-relaxed">
+                    "Motion is when you are tired. Movement is when you are somewhere new at the end of it."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 02: THE DIAGNOSIS -->
+    <section id="audit" class="py-40 relative bg-white overflow-hidden dot-grid">
+        <div class="max-w-5xl mx-auto px-8 relative z-10">
+            <div class="text-center mb-24">
+                <div class="inline-block mb-4 text-[10px] font-bold text-primary uppercase tracking-[0.5em]">Segment 02</div>
+                <h2 class="font-heading text-5xl md:text-8xl font-black text-ink mb-8 tracking-tighter">What You <br/><span class="text-primary italic">Can't Name</span>.</h2>
+                <p class="text-gray-400 text-xl max-w-2xl mx-auto font-light italic">"You cannot course-correct a ghost."</p>
+            </div>
+
+            <!-- THE 5 SIGNALS -->
+            <div class="grid md:grid-cols-5 gap-6 mb-32">
+                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 01</div>
+                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">The Shrinking Why</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed font-medium">The reason you started is now a ghost.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 02</div>
+                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Expertise Plateau</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed font-medium">You haven't learned anything new in 6 months.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 03</div>
+                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Validation Loop</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed font-medium">External applause has replaced purpose.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 04</div>
+                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Reactive Calendar</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed font-medium">You serve others' priorities exclusively.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 05</div>
+                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Identity Gap</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed font-medium">Who you are at work isn't who you are.</p>
+                </div>
+            </div>
+
+            <!-- THE FASTSTREAM AUDIT -->
+            <div class="max-w-4xl mx-auto bg-ink text-white p-20 rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+                <div class="relative z-10">
+                    <div class="text-center mb-16">
+                        <div class="text-primary font-bold text-[10px] uppercase tracking-[0.5em] mb-6">The Faststream Diagnostic</div>
+                        <h3 class="font-heading text-4xl mb-4 italic italic font-black">"Philosophy without a tool <br/>is just a dream."</h3>
+                    </div>
+                    
+                    <div class="space-y-16">
+                        <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
+                            <span class="text-primary font-heading italic text-3xl font-black">01</span>
+                            <p class="text-2xl font-heading tracking-tight font-light leading-snug">Where will I be in <span class="text-primary italic font-medium underline underline-offset-8">5 years</span> if I keep doing exactly this?</p>
+                        </div>
+                        <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
+                            <span class="text-primary font-heading italic text-3xl font-black">02</span>
+                            <p class="text-2xl font-heading tracking-tight font-light leading-snug">Am I being <span class="text-primary italic font-medium underline underline-offset-8">stretched</span>, or am I just busy?</p>
+                        </div>
+                        <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
+                            <span class="text-primary font-heading italic text-3xl font-black">03</span>
+                            <p class="text-2xl font-heading tracking-tight font-light leading-snug">If I could <span class="text-primary italic font-medium underline underline-offset-8">redesign</span> this role from scratch today, would it look like this?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 03: THE REFRAME -->
+    <section id="reframe" class="relative py-40 overflow-hidden sunrise-accent">
+        <div class="max-w-6xl mx-auto px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-24 items-center">
+                <div class="fade-in-section">
+                    <div class="inline-flex items-center gap-2 mb-8 px-6 py-2 rounded-full border border-primary/20 bg-white shadow-sm text-[10px] font-bold uppercase tracking-[0.5em] text-primary">
+                        Segment 03: The Reframe
+                    </div>
+                    <h2 class="font-heading text-6xl md:text-8xl font-black text-ink mb-12 tracking-tighter leading-none">
+                        Drift Is Not <br/><span class="text-primary italic">Destiny</span>.
+                    </h2>
+                    <p class="text-2xl text-gray-500 mb-16 leading-relaxed font-light italic">
+                        The fact that you notice the drift means the part of you that knows where you're supposed to be is still awake.
+                    </p>
+
+                    <div class="space-y-12">
+                        <div class="flex gap-8 group">
+                            <div class="flex-shrink-0 w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-black/5 group-hover:bg-primary/10 transition-colors">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.418a2 2 0 011.106-1.789L9 2l5.447 2.724A2 2 0 0115 6.418v8.964a2 2 0 01-1.106 1.789L9 20z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-black text-ink text-2xl uppercase tracking-tighter mb-2">The Values Compass</h4>
+                                <p class="text-gray-400 text-sm italic font-medium">"Stop building maps for a destination you haven't reached. Build a compass for the values you carry."</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-8 group">
+                            <div class="flex-shrink-0 w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-black/5 group-hover:bg-primary/10 transition-colors">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-black text-ink text-2xl uppercase tracking-tighter mb-2">The Gravity Problem</h4>
+                                <p class="text-gray-400 text-sm italic font-medium">"Don't waste momentum fighting forces you cannot move. Your career is a prototype, not a contract."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- THE 7 DOMAINS -->
+                <div class="relative glass-panel rounded-[3rem] p-16 shadow-[0_60px_100px_rgba(0,0,0,0.1)]">
+                    <div class="text-[9px] font-bold text-primary uppercase tracking-[0.5em] mb-12 text-center">Where is the drift loudest?</div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Career</div>
+                        </div>
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Family</div>
+                        </div>
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Health</div>
+                        </div>
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Finances</div>
+                        </div>
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Growth</div>
+                        </div>
+                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
+                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Soul</div>
+                        </div>
+                    </div>
+                    <div class="mt-12 pt-12 border-t border-primary/10 text-center">
+                        <p class="text-[9px] text-gray-400 font-bold tracking-[0.4em] uppercase">Selection is the Ultimate Act of Leadership.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 04: THE CLOSE -->
+    <section id="close" class="py-48 bg-ink text-white relative overflow-hidden">
+        <div class="absolute inset-0 dot-grid opacity-10"></div>
+        <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
+            <h2 class="font-heading text-6xl md:text-9xl font-black mb-12 tracking-tighter leading-none italic">The Quiet <span class="text-primary">Line</span>.</h2>
+            <p class="text-xl md:text-2xl text-gray-500 mb-20 leading-relaxed max-w-2xl mx-auto font-light">
+                Every moment of drift has a preceding moment of awareness. A flicker. A hesitation. <br/> <span class="text-white italic">This book is about honoring that flicker.</span>
+            </p>
+            <div class="bg-white/5 border border-white/10 p-20 rounded-[3rem] mb-20 shadow-2xl backdrop-blur-sm">
+                <p class="text-3xl md:text-5xl font-heading mb-12 italic tracking-tighter italic font-black">"What would I be doing professionally if I trusted myself completely?"</p>
+                <div class="h-px w-32 bg-primary mx-auto mb-12"></div>
+                <p class="text-[10px] uppercase tracking-[0.6em] text-gray-500 font-bold">Write the answer. Establish the line.</p>
+            </div>
+            <a href="https://meet.google.com" target="_blank" class="available-now-btn px-16 py-8 rounded-2xl text-white font-heading text-2xl font-black tracking-widest inline-block shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+                Enter The Residency
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 05: THE BIBLIOGRAPHY -->
+    <section class="py-32 bg-parchment dot-grid">
+        <div class="max-w-6xl mx-auto px-8">
+            <div class="mb-20">
+                <div class="inline-block mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.5em] border-b border-primary/20 pb-2">The Dossier</div>
+                <h2 class="font-heading text-4xl font-black text-ink">Research <span class="text-primary italic">Foundation</span></h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-x-20 gap-y-12 text-[11px] leading-relaxed">
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">01.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Scott A. Snook</span><br/><span class="italic text-gray-500">Friendly Fire</span>. Defining Practical Drift and normalization of deviance.</div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">02.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Burnett & Evans</span><br/><span class="italic text-gray-500">Designing Your Life</span>. Prototyping and the Gravity Problem.</div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">03.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Hyatt & Harkavy</span><br/><span class="italic text-gray-500">Living Forward</span>. Reactive drift and the 7 Life Domains.</div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">04.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Junko Okada</span><br/><span class="italic text-gray-500">The Success Trap</span>. Framing achievement as a potential cage for identity.</div>
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">05.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Julia Christina</span><br/><span class="italic text-gray-500">Values Compass</span>. Shift from destination-mapping to value-alignment.</div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">06.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Jen Green</span><br/><span class="italic text-gray-500">Evolutionary Scope</span>. Drift as data for intentional momentum redirection.</div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <span class="text-primary font-black italic text-lg">07.</span>
+                        <div><span class="font-bold text-ink uppercase tracking-widest text-[9px]">Systems Theory</span><br/><span class="italic text-gray-600 font-medium italic">Concept Drift</span>. Parallels between data decay and strategic misalignment.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-24 border-t border-primary/10 text-center bg-white relative z-10">
+        <div class="mb-12">
+             <div class="text-2xl font-heading font-black tracking-tighter text-ink uppercase">Professional Drift | <span class="text-primary italic">The Quiet Line</span></div>
+             <div class="mt-8 flex justify-center gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-gray-400">
+                <a href="https://thequietlinebook.com" target="_blank" class="hover:text-primary transition-colors">thequietlinebook.com</a>
+                <a href="https://tristanwalker.com" target="_blank" class="hover:text-primary transition-colors">tristanwalker.com</a>
+             </div>
+        </div>
+        <p class="text-[9px] font-bold text-gray-300 tracking-[0.8em] uppercase">© 2026 Tristian Walker Ecosystem</p>
+    </footer>
+
+    <script>
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
