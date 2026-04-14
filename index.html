@@ -32,38 +32,52 @@
         body {
             scroll-behavior: smooth;
             background-color: #FDFCF8;
-            color: #1A1A1A;
+            color: #2D2D2D; /* Darker body text for higher contrast */
         }
 
         /* Resilient Backgrounds (No Image Dependencies) */
         .dot-grid {
-            background-image: radial-gradient(#e5e5e0 1px, transparent 1px);
+            background-image: radial-gradient(#dcdcdc 1px, transparent 1px);
             background-size: 32px 32px;
         }
 
         .hero-gradient {
-            background: linear-gradient(rgba(26, 26, 26, 0.8), rgba(26, 26, 26, 0.95)), 
-                        radial-gradient(circle at 50% 50%, #2c3e50 0%, #1a1a1a 100%);
+            background: linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 0.98)), 
+                        radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
         }
 
         .surgical-glow {
-            background: radial-gradient(circle at 50% 0%, rgba(224, 231, 255, 0.4) 0%, rgba(253, 252, 248, 0) 70%);
+            background: radial-gradient(circle at 50% 0%, rgba(196, 164, 132, 0.15) 0%, rgba(253, 252, 248, 0) 70%);
         }
 
         .sunrise-accent {
-            background: linear-gradient(180deg, rgba(253, 252, 248, 0) 0%, rgba(196, 164, 132, 0.1) 100%);
+            background: linear-gradient(180deg, rgba(253, 252, 248, 0) 0%, rgba(196, 164, 132, 0.08) 100%);
+        }
+
+        /* PREMUM LEVITATION */
+        .levitate {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(196, 164, 132, 0.1);
+        }
+
+        .levitate:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.12);
+            border-color: rgba(196, 164, 132, 0.4);
+            background-color: white !important;
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(196, 164, 132, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
         }
 
         .fade-in-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
+            transform: translateY(40px);
+            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .fade-in-section.visible {
@@ -75,18 +89,37 @@
             background-color: #A68B6F;
             color: white;
             box-shadow: 0 10px 20px rgba(166, 139, 111, 0.2);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .available-now-btn:hover {
-            background-color: #8E755D;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(166, 139, 111, 0.3);
+            background-color: #1A1A1A;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-mark {
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid #C4A484;
+            position: relative;
+            transform: rotate(45deg);
+        }
+        .logo-mark::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: #C4A484;
+            opacity: 0.3;
         }
 
         .logo-text {
             font-family: 'Playfair Display', serif;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
+        }
+
+        .premium-shadow {
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
         }
     </style>
 </head>
@@ -94,45 +127,48 @@
 
     <!-- NAVIGATION -->
     <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-md border-b border-primary/5">
-        <div class="text-xl font-heading font-black tracking-tight flex items-center gap-1 logo-text">
-            The Quiet <span class="text-primary italic">Line</span>
+        <div class="flex items-center gap-4">
+            <div class="logo-mark"></div>
+            <div class="text-xl font-heading font-black tracking-tight flex items-center gap-1 logo-text">
+                The Quiet <span class="text-primary italic">Line</span>
+            </div>
         </div>
         <div class="hidden md:flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500">
+            <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-ink transition-colors border-b border-primary/20 pb-0.5">TristianWalker.com</a>
             <a href="#definition" class="hover:text-ink transition-colors">01 Definition</a>
             <a href="#audit" class="hover:text-ink transition-colors">02 Diagnosis</a>
             <a href="#reframe" class="hover:text-ink transition-colors">03 Reframe</a>
-            <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-6 py-2.5 rounded text-white tracking-widest">Available Now</a>
+            <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-6 py-2.5 rounded text-white tracking-widest font-bold">Buy The Book</a>
         </div>
     </nav>
 
     <!-- HERO: THE HOOK -->
     <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden hero-gradient">
-        <div class="absolute inset-0 surgical-glow"></div>
-        <div class="absolute inset-0 dot-grid opacity-20"></div>
+        <div class="absolute inset-0 dot-grid opacity-10"></div>
 
         <div class="relative z-10 max-w-5xl px-8 text-center text-white">
-            <div class="inline-block mb-8 text-[10px] font-bold text-primary uppercase tracking-[0.5em]">
+            <div class="inline-block mb-10 text-[10px] font-bold text-primary uppercase tracking-[0.6em] border-b border-primary/10 pb-2">
                 Meet The Author: The Professionalism of Presence
             </div>
             <h1 class="font-heading text-6xl md:text-[8rem] leading-[0.85] mb-10 text-balance font-black tracking-tighter">
                 The Interaction <br/> <span class="text-primary italic font-bold">Nobody Meant to Lose</span>.
             </h1>
             <p class="text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-light italic">
-                In an industry built on care, the most dangerous drift happens between two people. When process overrules presence, and metrics outpace empathy, we lose the foundation of our character. This is how we reclaim the human interaction.
+                In an industry built on care, the most dangerous drift happens between two people. When process overrules presence, and metrics outpace empathy, we lose the foundation of our character.
             </p>
             
-            <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16 text-[10px] font-bold uppercase tracking-[0.3em] text-primary/60">
-                <div class="border border-white/10 p-4 rounded bg-white/5">Transactional Service</div>
-                <div class="border border-white/10 p-4 rounded bg-white/5">The Wall of Anonymity</div>
-                <div class="border border-white/10 p-4 rounded bg-white/5">Standardized Presence</div>
+            <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16 text-[10px] font-bold uppercase tracking-[0.3em]">
+                <div class="border border-white/10 p-5 rounded bg-white/5 backdrop-blur-sm text-primary">Transactional Service</div>
+                <div class="border border-white/10 p-5 rounded bg-white/5 backdrop-blur-sm text-primary">The Wall of Anonymity</div>
+                <div class="border border-white/10 p-5 rounded bg-white/5 backdrop-blur-sm text-primary">Standardized Presence</div>
             </div>
 
-            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                <a href="#definition" class="bg-primary text-white px-10 py-5 rounded font-bold transition-all hover:bg-primary-hover tracking-tight font-heading text-lg shadow-xl">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-10">
+                <a href="#definition" class="bg-primary hover:bg-white hover:text-ink text-white px-12 py-6 rounded-sm font-bold transition-all tracking-tighter font-heading text-xl shadow-2xl">
                     Begin The Lecture
                 </a>
-                <a href="#audit" class="text-white px-10 py-5 font-bold tracking-tight font-heading text-lg border-b-2 border-primary/30 hover:border-primary transition-all">
-                    The Human Audit
+                <a href="https://tristianwalker.com" target="_blank" class="text-gray-400 hover:text-primary transition-all text-sm uppercase tracking-[0.4em] font-bold py-2 border-b border-white/5 hover:border-primary/40">
+                    Visit TristianWalker.com
                 </a>
             </div>
         </div>
@@ -155,169 +191,180 @@
                     <p class="text-2xl font-heading text-ink italic leading-tight">"Drift is what happens when you perform the task perfectly, but lose the human entirely."</p>
                     
                     <div class="grid gap-10 mt-12">
-                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                        <div class="fade-in-section levitate group border-l-[3px] border-primary/20 pl-8 py-6 hover:border-primary transition-all bg-white/30 rounded-r-xl shadow-sm">
                             <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[11px] mb-2">The Transactional Task <span class="text-primary px-2 opacity-50">/ Reactive</span></h4>
                             <p class="text-sm">When the "Job Description" becomes a psychological shield. You stop seeing the human struggle and start seeing the checklist. You are no longer serving; you are processing.</p>
                         </div>
-                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                        <div class="fade-in-section levitate group border-l-[3px] border-primary/20 pl-8 py-6 hover:border-primary transition-all bg-white/30 rounded-r-xl shadow-sm">
                             <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[11px] mb-2">The Expertise Ego <span class="text-primary px-2 opacity-50">/ Success Trap</span></h4>
-                            <p class="text-sm">You are celebrated for your efficiency and accuracy. But as your professional mastery grows, your capacity for hospitality—the ability to be fully present for a stranger's need—atrophies. You are an expert and an island.</p>
+                            <p class="text-sm">You are celebrated for your efficiency and accuracy. But as your professional mastery grows, your capacity for hospitality atrophies. You are an expert and an island.</p>
                         </div>
-                        <div class="group border-l-[3px] border-primary/20 pl-8 py-2 hover:border-primary transition-all">
+                        <div class="fade-in-section levitate group border-l-[3px] border-primary/20 pl-8 py-6 hover:border-primary transition-all bg-white/30 rounded-r-xl shadow-sm">
                             <h4 class="font-bold text-ink uppercase tracking-[0.2em] text-[11px] mb-2">The Industry Noise <span class="text-primary px-2 opacity-50">/ Systemic</span></h4>
-                            <p class="text-sm">The environment demands speed over resonance. Gradually, you stop fighting the "Broken System" and start mirroring its coldness. Your identity has drifted from "Caregiver" to "Corporate Actor."</p>
+                            <p class="text-sm">The environment demands speed over resonance. Gradually, you stop fighting the "Broken System" and start mirroring its coldness.</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="relative glass-panel rounded-3xl p-12 shadow-2xl flex flex-col justify-center gap-12 bg-white/40">
+            <div class="fade-in-section relative glass-panel rounded-[3rem] p-16 shadow-[0_50px_100px_rgba(0,0,0,0.1)] flex flex-col justify-center gap-16 bg-white">
                 <div class="text-center">
-                    <div class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.5em] mb-12">The Surgical Distinction</div>
-                    <div class="flex items-center justify-around gap-4">
+                    <div class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.6em] mb-16 border-b border-primary/10 pb-4">The Surgical Distinction</div>
+                    <div class="flex items-center justify-around gap-8">
                         <div class="text-center group">
-                            <div class="text-5xl font-heading font-black text-gray-200 line-through group-hover:text-gray-300 transition-colors">Motion</div>
-                            <div class="mt-4 text-[9px] text-gray-400 font-bold uppercase tracking-widest">Being Busy</div>
+                            <div class="text-6xl font-heading font-black text-gray-200 line-through group-hover:text-gray-300 transition-colors">Motion</div>
+                            <div class="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-[0.4em]">Being Busy</div>
                         </div>
-                        <div class="text-xl font-heading text-primary italic opacity-50">vs</div>
+                        <div class="text-2xl font-heading text-primary italic opacity-50">vs</div>
                         <div class="text-center group">
-                            <div class="text-5xl font-heading font-black text-ink group-hover:text-primary transition-colors">Movement</div>
-                            <div class="mt-4 text-[9px] text-primary font-bold uppercase tracking-widest">Being New</div>
+                            <div class="text-6xl font-heading font-black text-ink group-hover:text-primary transition-colors">Movement</div>
+                            <div class="mt-6 text-[10px] text-primary font-bold uppercase tracking-[0.4em]">Being New</div>
                         </div>
                     </div>
                 </div>
-                <div class="h-px w-full bg-primary/10"></div>
-                <p class="text-center text-sm text-gray-500 italic px-6 leading-relaxed">
+                <div class="h-px w-full bg-primary/10 opacity-50"></div>
+                <p class="text-center text-lg text-gray-500 italic px-10 leading-relaxed max-w-sm mx-auto">
                     "Motion is when you are tired. Movement is when you are somewhere new at the end of it."
                 </p>
             </div>
         </div>
-    </sectio    <!-- SECTION 02: THE DIAGNOSIS -->
+    </section>
+
+    <!-- SECTION 02: THE DIAGNOSIS -->
     <section id="audit" class="py-40 relative bg-white overflow-hidden dot-grid">
         <div class="max-w-5xl mx-auto px-8 relative z-10">
             <div class="text-center mb-24">
                 <div class="inline-block mb-4 text-[10px] font-bold text-primary uppercase tracking-[0.5em]">Segment 02: The Diagnosis</div>
-                <h2 class="font-heading text-5xl md:text-8xl font-black text-ink mb-8 tracking-tighter text-balance">The Wall of <br/><span class="text-primary italic">Anonymity</span>.</h2>
+                <h2 class="font-heading text-5xl md:text-[8rem] font-black text-ink mb-8 tracking-tighter text-balance leading-[0.85]">The Wall of <br/><span class="text-primary italic">Anonymity</span>.</h2>
                 <p class="text-gray-400 text-xl max-w-2xl mx-auto font-light italic">"You cannot course-correct a ghost in the interaction."</p>
             </div>
 
             <!-- THE 5 SIGNALS -->
             <div class="grid md:grid-cols-5 gap-6 mb-32">
-                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 01</div>
-                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Transactional Talk</h4>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-medium">When conversations become short-hand for tasks. You are speaking to a "ticket number" or a "role," not the person occupying it.</p>
+                <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 01</div>
+                    <h4 class="font-heading font-black text-ink text-xl mb-4 leading-tight">Transactional Talk</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-medium">When conversations become short-hand for tasks. You are speaking to a "ticket number" or a "role."</p>
                 </div>
-                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 02</div>
-                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">The Scripted Smile</h4>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-medium">When hospitality becomes a protocol instead of a personality. You are performing "service," but you aren't offering "care."</p>
+                <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 02</div>
+                    <h4 class="font-heading font-black text-ink text-xl mb-4 leading-tight">The Scripted Smile</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-medium">When hospitality becomes a protocol instead of a personality. Performing "service," but not "care."</p>
                 </div>
-                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 03</div>
-                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Metric Inertia</h4>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-medium">When efficiency is the only value being measured. If you can't quantify the connection, the system treats it as non-existent.</p>
+                <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 03</div>
+                    <h4 class="font-heading font-black text-ink text-xl mb-4 leading-tight">Metric Inertia</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-medium">When efficiency is the only value measured. If you can't quantify it, the system ignores it.</p>
                 </div>
-                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 04</div>
-                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Presence Burnout</h4>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-medium">The feeling that being "fully there" is a cost you can no longer afford. You preserve yourself by detaching from the humanity of others.</p>
+                <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 04</div>
+                    <h4 class="font-heading font-black text-ink text-xl mb-4 leading-tight">Presence Burnout</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-medium">The feeling that being "fully there" is a cost you can no longer afford. Detaching to preserve.</p>
                 </div>
-                <div class="glass-panel p-8 rounded-2xl hover:translate-y-[-8px] transition-all bg-white shadow-sm border border-black/5">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-6 border-b border-primary/10 pb-2">Signal 05</div>
-                    <h4 class="font-heading font-bold text-ink mb-3 leading-tight">Character Decay</h4>
-                    <p class="text-[10px] text-gray-400 leading-relaxed font-medium">Who you are at your best (patient, kind, curious) is no longer who you are at 3:00 PM on a Tuesday. The job has eroded the person.</p>
+                <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
+                    <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 05</div>
+                    <h4 class="font-heading font-black text-ink text-xl mb-4 leading-tight">Character Decay</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed font-medium">Who you are at your best is no longer who you are at 3 PM on a Tuesday.</p>
                 </div>
             </div>
 
             <!-- THE HUMAN AUDIT -->
-            <div class="max-w-4xl mx-auto bg-ink text-white p-20 rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.3)] relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+            <div class="fade-in-section max-w-4xl mx-auto bg-ink text-white p-20 rounded-[4rem] shadow-[0_60px_120px_rgba(0,0,0,0.4)] relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
                 <div class="relative z-10">
                     <div class="text-center mb-16">
-                        <div class="text-primary font-bold text-[10px] uppercase tracking-[0.5em] mb-6">The Human Audit</div>
-                        <h3 class="font-heading text-4xl mb-4 italic italic font-black">"Hospitality is not an extra. <br/>It is a foundation of character."</h3>
+                        <div class="text-primary font-bold text-[10px] uppercase tracking-[0.5em] mb-8 border-b border-primary/20 pb-2 inline-block">The Human Audit</div>
+                        <h3 class="font-heading text-5xl mb-4 italic font-black text-balance leading-tight">"Hospitality is not an extra. <br/>It is a foundation of character."</h3>
                     </div>
                     
                     <div class="space-y-16">
                         <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
-                            <span class="text-primary font-heading italic text-3xl font-black">01</span>
+                            <span class="text-primary font-heading italic text-4xl font-black">01</span>
                             <p class="text-2xl font-heading tracking-tight font-light leading-snug">Does the person I just served feel like a <span class="text-primary italic font-medium underline underline-offset-8">priority</span> or a procedure?</p>
                         </div>
                         <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
-                            <span class="text-primary font-heading italic text-3xl font-black">02</span>
+                            <span class="text-primary font-heading italic text-4xl font-black">02</span>
                             <p class="text-2xl font-heading tracking-tight font-light leading-snug">Am I bringing my <span class="text-primary italic font-medium underline underline-offset-8">character</span> to this role, or just my credentials?</p>
                         </div>
                         <div class="flex gap-10 items-center justify-center text-center max-w-2xl mx-auto">
-                            <span class="text-primary font-heading italic text-3xl font-black">03</span>
+                            <span class="text-primary font-heading italic text-4xl font-black">03</span>
                             <p class="text-2xl font-heading tracking-tight font-light leading-snug">Do people feel more <span class="text-primary italic font-medium underline underline-offset-8">human</span> after interacting with me?</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
     <!-- SECTION 03: THE REFRAME -->
-    <section id="reframe" class="relative py-40 overflow-hidden sunrise-accent">
+    <section id="reframe" class="relative py-48 overflow-hidden sunrise-accent">
         <div class="max-w-6xl mx-auto px-8 relative z-10">
-            <div class="grid md:grid-cols-2 gap-24 items-center">
+            <div class="grid md:grid-cols-2 gap-32 items-center">
                 <div class="fade-in-section">
-                    <div class="inline-flex items-center gap-2 mb-8 px-6 py-2 rounded-full border border-primary/20 bg-white shadow-sm text-[10px] font-bold uppercase tracking-[0.5em] text-primary">
+                    <div class="inline-flex items-center gap-2 mb-10 px-6 py-2 rounded-full border border-primary/20 bg-white shadow-sm text-[10px] font-bold uppercase tracking-[0.5em] text-primary">
                         Segment 03: The Reframe
                     </div>
-                    <h2 class="font-heading text-6xl md:text-8xl font-black text-ink mb-12 tracking-tighter leading-none text-balance">
+                    <h2 class="font-heading text-6xl md:text-[8rem] font-black text-ink mb-12 tracking-tighter leading-[0.85] text-balance">
                         The Foundation <br/><span class="text-primary italic">is Character</span>.
                     </h2>
-                    <p class="text-2xl text-gray-500 mb-16 leading-relaxed font-light italic">
+                    <p class="text-2xl text-gray-500 mb-20 leading-relaxed font-light italic">
                         The fact that you notice the disconnection means the part of you that knows why you chose a life of service is still awake.
                     </p>
 
-                    <div class="space-y-12">
-                        <div class="flex gap-8 group">
-                            <div class="flex-shrink-0 w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-black/5 group-hover:bg-primary/10 transition-colors">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6.418a2 2 0 011.106-1.789L9 2l5.447 2.724A2 2 0 0115 6.418v8.964a2 2 0 01-1.106 1.789L9 20z"></path></svg>
+                    <div class="space-y-16">
+                        <div class="flex gap-10 group">
+                            <div class="flex-shrink-0 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-primary/10 group-hover:border-primary/40 transition-all">
+                                <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="9" stroke-dasharray="2 2" />
+                                    <path d="M12 7v5l3 3" />
+                                    <path d="M12 3v2M12 19v2M3 12h2M19 12h2" opacity="0.5" />
+                                </svg>
                             </div>
                             <div>
-                                <h4 class="font-heading font-black text-ink text-2xl uppercase tracking-tighter mb-2">The Compass of Presence</h4>
-                                <p class="text-gray-400 text-sm italic font-medium">"Stop building paths for a system that rewards speed. Build a compass for the presence you must protect."</p>
+                                <h4 class="font-heading font-black text-ink text-3xl uppercase tracking-tighter mb-3">The Compass of Presence</h4>
+                                <p class="text-gray-400 text-base italic font-medium">"Stop building paths for a system that rewards speed. Build a compass for the presence you must protect."</p>
                             </div>
                         </div>
-                        <div class="flex gap-8 group">
-                            <div class="flex-shrink-0 w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-black/5 group-hover:bg-primary/10 transition-colors">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <div class="flex gap-10 group">
+                            <div class="flex-shrink-0 w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-primary/10 group-hover:border-primary/40 transition-all">
+                                <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M7 11V7a5 5 0 0110 0v4" opacity="0.3" />
+                                    <rect x="5" y="11" width="14" height="10" rx="2" />
+                                    <circle cx="12" cy="16" r="1.5" />
+                                </svg>
                             </div>
                             <div>
-                                <h4 class="font-heading font-black text-ink text-2xl uppercase tracking-tighter mb-2">The Gravity of Transaction</h4>
-                                <p class="text-gray-400 text-sm italic font-medium">"Don't waste momentum fighting administrative gravity. Your interaction is a prototype of character, not a corporate quota."</p>
+                                <h4 class="font-heading font-black text-ink text-3xl uppercase tracking-tighter mb-3">The Gravity of Transaction</h4>
+                                <p class="text-gray-400 text-base italic font-medium">"Don't waste momentum fighting administrative gravity. Your interaction is a prototype of character."</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- THE 7 DOMAINS -->
-                <div class="relative glass-panel rounded-[3rem] p-16 shadow-[0_60px_100_rgba(0,0,0,0.1)]">
-                    <div class="text-[9px] font-bold text-primary uppercase tracking-[0.5em] mb-12 text-center">Where is the drift loudest?</div>
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">One-on-Ones</div>
+                <div class="fade-in-section relative glass-panel rounded-[4rem] p-20 shadow-[0_80px_150px_rgba(0,0,0,0.12)] bg-white">
+                    <div class="text-[10px] font-bold text-primary uppercase tracking-[0.6em] mb-16 text-center border-b border-primary/5 pb-4">Where is the drift loudest?</div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">One-on-Ones</div>
                         </div>
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Daily Rounds</div>
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">Daily Rounds</div>
                         </div>
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Team Cohesion</div>
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">Team Cohesion</div>
                         </div>
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Self-Respect</div>
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">Self-Respect</div>
                         </div>
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Integrity</div>
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">Integrity</div>
                         </div>
-                        <div class="p-6 border border-primary/10 rounded-2xl text-center bg-white/40 hover:bg-white hover:shadow-md transition-all cursor-pointer group">
-                            <div class="text-xs font-bold uppercase tracking-widest text-gray-500 group-hover:text-primary transition-colors">Hospitality</div>
+                        <div class="levitate p-10 border border-primary/5 rounded-3xl text-center bg-parchment hover:bg-white transition-all cursor-pointer group premium-shadow">
+                            <div class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 group-hover:text-primary transition-colors">Hospitality</div>
                         </div>
                     </div>
-                    <div class="mt-12 pt-12 border-t border-primary/10 text-center">
-                        <p class="text-[9px] text-gray-400 font-bold tracking-[0.4em] uppercase">Humanity is the Ultimate Act of Leadership.</p>
+                    <div class="mt-20 pt-12 border-t border-primary/10 text-center">
+                        <p class="text-[10px] text-gray-400 font-bold tracking-[0.5em] uppercase">Humanity is the Ultimate Act of Leadership.</p>
                     </div>
                 </div>
             </div>
@@ -325,30 +372,36 @@
     </section>
 
     <!-- SECTION 04: THE CLOSE -->
-    <section id="close" class="py-48 bg-ink text-white relative overflow-hidden">
-        <div class="absolute inset-0 dot-grid opacity-10"></div>
+    <section id="close" class="py-60 bg-ink text-white relative overflow-hidden">
+        <div class="absolute inset-0 dot-grid opacity-5"></div>
         <div class="max-w-4xl mx-auto px-8 text-center relative z-10">
-            <h2 class="font-heading text-6xl md:text-9xl font-black mb-12 tracking-tighter leading-none italic">The Quiet <span class="text-primary">Line</span>.</h2>
-            <p class="text-xl md:text-2xl text-gray-500 mb-20 leading-relaxed max-w-2xl mx-auto font-light">
+            <h2 class="font-heading text-7xl md:text-[10rem] font-black mb-16 tracking-tighter leading-none italic">The Quiet <span class="text-primary">Line</span>.</h2>
+            <p class="text-xl md:text-3xl text-gray-500 mb-24 leading-relaxed max-w-3xl mx-auto font-light">
                 In every hallway, every meeting, and every interaction, drift has a preceding moment of awareness. A flicker. A hesitation. <br/> <span class="text-white italic">This lecture is about reclaiming that flicker.</span>
             </p>
-            <div class="bg-white/5 border border-white/10 p-20 rounded-[3rem] mb-20 shadow-2xl backdrop-blur-sm">
-                <p class="text-3xl md:text-5xl font-heading mb-12 italic tracking-tighter italic font-black">"What would I be doing in this interaction if I trusted my humanity completely?"</p>
-                <div class="h-px w-32 bg-primary mx-auto mb-12"></div>
-                <p class="text-[10px] uppercase tracking-[0.6em] text-gray-500 font-bold">Resonance is the cure. Establish the line.</p>
+            <div class="bg-white/5 border border-white/10 p-24 rounded-[4rem] mb-24 shadow-2xl backdrop-blur-sm">
+                <p class="text-4xl md:text-6xl font-heading mb-16 italic tracking-tighter font-black">"What would I be doing in this interaction if I trusted my humanity completely?"</p>
+                <div class="h-px w-48 bg-primary mx-auto mb-12 opacity-30"></div>
+                <p class="text-[11px] uppercase tracking-[0.8em] text-gray-500 font-bold">Resonance is the cure. Establish the line.</p>
             </div>
-            <a href="https://meet.google.com" target="_blank" class="available-now-btn px-16 py-8 rounded-2xl text-white font-heading text-2xl font-black tracking-widest inline-block shadow-[0_20px_40_rgba(0,0,0,0.4)]">
-                Enter The Residency
-            </a>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12">
+                <a href="https://meet.google.com" target="_blank" class="available-now-btn px-20 py-10 rounded-sm text-white font-heading text-3xl font-black tracking-widest inline-block shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                    Enter The Residency
+                </a>
+                <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-white transition-all text-[11px] font-bold uppercase tracking-[0.6em] border-b border-primary/30 pb-2">
+                    Back to TristianWalker.com
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- SECTION 05: THE BIBLIOGRAPHY -->
-    <section class="py-32 bg-parchment dot-grid">
+    <section class="py-48 bg-parchment dot-grid">
         <div class="max-w-6xl mx-auto px-8">
-            <div class="mb-20">
-                <div class="inline-block mb-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.5em] border-b border-primary/20 pb-2">The Dossier</div>
-                <h2 class="font-heading text-4xl font-black text-ink">Research <span class="text-primary italic">Foundation</span></h2>
+            <div class="mb-24">
+                <div class="inline-block mb-4 text-[11px] font-bold text-gray-400 uppercase tracking-[0.6em] border-b border-primary/30 pb-2">The Dossier</div>
+                <h2 class="font-heading text-6xl font-black text-ink tracking-tighter">Research <span class="text-primary italic">Foundation</span></h2>
             </div>
 
             <div class="grid md:grid-cols-2 gap-x-20 gap-y-12 text-[11px] leading-relaxed">
