@@ -32,10 +32,10 @@
         body {
             scroll-behavior: smooth;
             background-color: #FDFCF8;
-            color: #2D2D2D; /* Darker body text for higher contrast */
+            color: #2D2D2D;
         }
 
-        /* Resilient Backgrounds (No Image Dependencies) */
+        /* Resilient Backgrounds */
         .dot-grid {
             background-image: radial-gradient(#dcdcdc 1px, transparent 1px);
             background-size: 32px 32px;
@@ -54,24 +54,36 @@
             background: linear-gradient(180deg, rgba(253, 252, 248, 0) 0%, rgba(196, 164, 132, 0.08) 100%);
         }
 
-        /* PREMUM LEVITATION */
+        /* PHYSICS & INTERACTIVITY */
         .levitate {
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid rgba(196, 164, 132, 0.1);
         }
 
         .levitate:hover {
             transform: translateY(-12px);
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.12);
-            border-color: rgba(196, 164, 132, 0.4);
-            background-color: white !important;
+        }
+
+        /* Motion vs Movement Physics */
+        .physics-motion:hover {
+            color: #ef4444 !important;
+            transition: color 0.3s ease;
+        }
+
+        .physics-movement {
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .physics-movement:hover {
+            transform: translateX(2rem);
+            opacity: 0.7;
         }
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(196, 164, 132, 0.15);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
         }
 
         .fade-in-section {
@@ -85,59 +97,84 @@
             transform: translateY(0);
         }
 
-        .available-now-btn {
-            background-color: #A68B6F;
-            color: white;
-            box-shadow: 0 10px 20px rgba(166, 139, 111, 0.2);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(196, 164, 132, 0.1);
         }
 
-        .available-now-btn:hover {
-            background-color: #1A1A1A;
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        .logo-text { font-family: 'Playfair Display', serif; }
+        .logo-word-quiet { transition: color 0.4s ease; }
+        .nav-scrolled .logo-word-quiet { color: #C4A484; }
+
+        .lead-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
         }
 
-        .logo-mark {
-            width: 24px;
-            height: 24px;
-            border: 1.5px solid #C4A484;
-            position: relative;
-            transform: rotate(45deg);
-        }
-        .logo-mark::after {
-            content: '';
-            position: absolute;
-            inset: 4px;
-            background: #C4A484;
-            opacity: 0.3;
+        .lead-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #C4A484;
+            outline: none;
         }
 
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-            letter-spacing: -0.01em;
+        /* FLOATING AUDIO BAR */
+        .audio-bar {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            z-index: 100;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(196, 164, 132, 0.3);
+            border-radius: 100px;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 40px 60px rgba(0, 0, 0, 0.4);
         }
 
-        .premium-shadow {
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+        @media (max-width: 768px) {
+            .hero-text { font-size: 3.5rem !important; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body class="font-body antialiased selection:bg-primary/20 selection:text-ink">
 
-    <!-- NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center backdrop-blur-md border-b border-primary/5">
-        <div class="flex items-center gap-4">
-            <div class="logo-mark"></div>
-            <div class="text-xl font-heading font-black tracking-tight flex items-center gap-1 logo-text">
-                The Quiet <span class="text-primary italic">Line</span>
+    <!-- FLOATING AUDIO BAR -->
+    <div class="audio-bar">
+        <div class="flex-shrink-0">
+            <button id="audioToggle" class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg transition-transform hover:scale-110 active:scale-95">
+                <svg id="playIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.333-5.89a1.5 1.5 0 000-2.538L6.3 2.841z"/></svg>
+                <svg id="pauseIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4h3v12H5V4zm7 0h3v12h3V4z"/></svg>
+            </button>
+        </div>
+        <div class="flex-grow">
+            <div class="text-[9px] font-bold text-primary uppercase tracking-[0.3em] mb-1">Listen: The Author's Brief</div>
+            <div class="h-1 bg-white/10 rounded-full overflow-hidden">
+                <div id="audioProgress" class="h-full bg-primary w-0 transition-all duration-300"></div>
             </div>
         </div>
-        <div class="hidden md:flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500">
-            <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-ink transition-colors border-b border-primary/20 pb-0.5">TristianWalker.com</a>
-            <a href="#definition" class="hover:text-ink transition-colors">01 Definition</a>
-            <a href="#audit" class="hover:text-ink transition-colors">02 Diagnosis</a>
-            <a href="#reframe" class="hover:text-ink transition-colors">03 Reframe</a>
+        <audio id="mainAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav id="mainNav" class="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center transition-all duration-500">
+        <a href="https://thequietlinebook.com" target="_blank" class="flex items-center gap-2 group">
+            <div id="logoContainer" class="text-xl font-heading font-black tracking-tight logo-text text-white">
+                <span id="logoQuiet" class="logo-word-quiet">The Quiet</span> <span class="text-primary italic">Line</span>
+            </div>
+        </a>
+        <div class="nav-links flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">
+            <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-white transition-colors border-b border-primary/20 pb-0.5">TristianWalker.com</a>
+            <a href="#definition" class="hover:text-white transition-colors">01 Definition</a>
+            <a href="#audit" class="hover:text-white transition-colors">02 Diagnosis</a>
+            <a href="#reframe" class="hover:text-white transition-colors">03 Reframe</a>
             <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-6 py-2.5 rounded text-white tracking-widest font-bold">Buy The Book</a>
         </div>
     </nav>
@@ -150,11 +187,21 @@
             <div class="inline-block mb-10 text-[10px] font-bold text-primary uppercase tracking-[0.6em] border-b border-primary/10 pb-2">
                 Meet The Author: The Professionalism of Presence
             </div>
-            <h1 class="font-heading text-6xl md:text-[8rem] leading-[0.85] mb-10 text-balance font-black tracking-tighter">
+            <h1 class="font-heading text-6xl md:text-[8rem] leading-[0.85] mb-10 text-balance font-black tracking-tighter hero-text">
                 The Interaction <br/> <span class="text-primary italic font-bold">Nobody Meant to Lose</span>.
             </h1>
+            
+            <!-- Lead Capture Point 01 -->
+            <div class="max-w-md mx-auto mb-16">
+                <form id="leadFormHero" class="flex gap-2">
+                    <input type="email" placeholder="Enter your email to join the residency" class="lead-input flex-grow px-6 py-4 rounded text-sm text-white font-light" required>
+                    <button type="submit" class="bg-primary hover:bg-white hover:text-ink px-8 py-4 rounded font-bold transition-all shadow-xl">Join</button>
+                </form>
+                <div class="mt-4 text-[10px] text-gray-500 uppercase tracking-widest">Receive lecture notes & exclusive author briefings</div>
+            </div>
+
             <p class="text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-light italic">
-                In an industry built on care, the most dangerous drift happens between two people. When process overrules presence, and metrics outpace empathy, we lose the foundation of our character.
+                In an industry built on care, the most dangerous drift happens between two people. When process overrules presence, we lose the foundation of our character.
             </p>
             
             <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-16 text-[10px] font-bold uppercase tracking-[0.3em]">
@@ -212,12 +259,12 @@
                     <div class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.6em] mb-16 border-b border-primary/10 pb-4">The Surgical Distinction</div>
                     <div class="flex items-center justify-around gap-8">
                         <div class="text-center group">
-                            <div class="text-6xl font-heading font-black text-gray-200 line-through group-hover:text-gray-300 transition-colors">Motion</div>
+                            <div class="text-6xl font-heading font-black text-gray-200 line-through transition-colors physics-motion">Motion</div>
                             <div class="mt-6 text-[10px] text-gray-400 font-bold uppercase tracking-[0.4em]">Being Busy</div>
                         </div>
                         <div class="text-2xl font-heading text-primary italic opacity-50">vs</div>
                         <div class="text-center group">
-                            <div class="text-6xl font-heading font-black text-ink group-hover:text-primary transition-colors">Movement</div>
+                            <div class="text-6xl font-heading font-black text-ink transition-all physics-movement">Movement</div>
                             <div class="mt-6 text-[10px] text-primary font-bold uppercase tracking-[0.4em]">Being New</div>
                         </div>
                     </div>
