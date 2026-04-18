@@ -35,7 +35,6 @@
             color: #2D2D2D;
         }
 
-        /* Resilient Backgrounds */
         .dot-grid {
             background-image: radial-gradient(#dcdcdc 1px, transparent 1px);
             background-size: 32px 32px;
@@ -54,7 +53,6 @@
             background: linear-gradient(180deg, rgba(253, 252, 248, 0) 0%, rgba(196, 164, 132, 0.08) 100%);
         }
 
-        /* PHYSICS & INTERACTIVITY */
         .levitate {
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -64,7 +62,6 @@
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.12);
         }
 
-        /* Motion vs Movement Physics */
         .physics-motion:hover {
             color: #ef4444 !important;
             transition: color 0.3s ease;
@@ -118,7 +115,6 @@
             outline: none;
         }
 
-        /* FLOATING AUDIO BAR */
         .audio-bar {
             position: fixed;
             bottom: 2rem;
@@ -136,6 +132,27 @@
             align-items: center;
             gap: 1rem;
             box-shadow: 0 40px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Form success state */
+        .form-success {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .form-success p {
+            color: #C4A484;
+            font-size: 13px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Loading state for button */
+        .btn-loading {
+            opacity: 0.7;
+            pointer-events: none;
+            cursor: not-allowed;
         }
 
         @media (max-width: 768px) {
@@ -191,11 +208,23 @@
                 The Interaction <br/> <span class="text-primary italic font-bold">Nobody Meant to Lose</span>.
             </h1>
             
-            <!-- Lead Capture Point 01 -->
-            <div class="max-w-md mx-auto mb-16">
+            <!-- Lead Capture -->
+            <div class="max-w-md mx-auto mb-16" id="heroFormWrapper">
                 <form id="leadFormHero" class="flex gap-2">
-                    <input type="email" placeholder="Enter your email to join the residency" class="lead-input flex-grow px-6 py-4 rounded text-sm text-white font-light" required>
-                    <button type="submit" class="bg-primary hover:bg-white hover:text-ink px-8 py-4 rounded font-bold transition-all shadow-xl">Join</button>
+                    <input 
+                        type="email" 
+                        id="heroEmail"
+                        placeholder="Enter your email to join the residency" 
+                        class="lead-input flex-grow px-6 py-4 rounded text-sm text-white font-light" 
+                        required
+                    >
+                    <button 
+                        type="submit" 
+                        id="heroSubmitBtn"
+                        class="bg-primary hover:bg-white hover:text-ink px-8 py-4 rounded font-bold transition-all shadow-xl"
+                    >
+                        Join
+                    </button>
                 </form>
                 <div class="mt-4 text-[10px] text-gray-500 uppercase tracking-widest">Receive lecture notes & exclusive author briefings</div>
             </div>
@@ -220,7 +249,6 @@
             </div>
         </div>
         
-        <!-- Scroll Indicator -->
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-30">
             <div class="w-px h-16 bg-white animate-pulse"></div>
         </div>
@@ -286,7 +314,6 @@
                 <p class="text-gray-400 text-xl max-w-2xl mx-auto font-light italic">"You cannot course-correct a ghost in the interaction."</p>
             </div>
 
-            <!-- THE 5 SIGNALS -->
             <div class="grid md:grid-cols-5 gap-6 mb-32">
                 <div class="fade-in-section levitate glass-panel p-10 rounded-3xl bg-white shadow-sm hover:shadow-2xl transition-all">
                     <div class="text-primary font-bold text-[9px] uppercase tracking-widest mb-8 border-b border-primary/10 pb-2">Signal 01</div>
@@ -315,13 +342,12 @@
                 </div>
             </div>
 
-            <!-- THE HUMAN AUDIT -->
             <div class="fade-in-section max-w-4xl mx-auto bg-ink text-white p-20 rounded-[4rem] shadow-[0_60px_120px_rgba(0,0,0,0.4)] relative overflow-hidden group">
                 <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
                 <div class="relative z-10">
                     <div class="text-center mb-16">
                         <div class="text-primary font-bold text-[10px] uppercase tracking-[0.5em] mb-8 border-b border-primary/20 pb-2 inline-block">The Human Audit</div>
-                        <h3 class="font-heading text-5xl mb-4 italic font-black text-balance leading-tight">"Hospitality is not an extra. <br/>It is a foundation of character."</h3>
+                        <h3 class="font-heading text-5xl mb-4 italic tracking-tighter font-black text-balance leading-tight">"Hospitality is not an extra. <br/>It is a foundation of character."</h3>
                     </div>
                     
                     <div class="space-y-16">
@@ -342,6 +368,7 @@
             </div>
         </div>
     </section>
+
     <!-- SECTION 03: THE REFRAME -->
     <section id="reframe" class="relative py-48 overflow-hidden sunrise-accent">
         <div class="max-w-6xl mx-auto px-8 relative z-10">
@@ -387,7 +414,6 @@
                     </div>
                 </div>
 
-                <!-- THE 7 DOMAINS -->
                 <div class="fade-in-section relative glass-panel rounded-[4rem] p-20 shadow-[0_80px_150px_rgba(0,0,0,0.12)] bg-white">
                     <div class="text-[10px] font-bold text-primary uppercase tracking-[0.6em] mb-16 text-center border-b border-primary/5 pb-4">Where is the drift loudest?</div>
                     <div class="grid grid-cols-2 gap-8">
@@ -433,8 +459,9 @@
             </div>
             
             <div class="flex flex-col md:flex-row items-center justify-center gap-12">
-                <a href="https://meet.google.com" target="_blank" class="available-now-btn px-20 py-10 rounded-sm text-white font-heading text-3xl font-black tracking-widest inline-block shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-                    Enter The Residency
+                <!-- UPDATED: Reserve Your Seat button — replace href with lecture URL when live -->
+                <a href="#" id="reserveSeatBtn" class="available-now-btn px-20 py-10 rounded-sm text-white font-heading text-3xl font-black tracking-widest inline-block shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                    Reserve Your Seat
                 </a>
                 <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-white transition-all text-[11px] font-bold uppercase tracking-[0.6em] border-b border-primary/30 pb-2">
                     Back to TristianWalker.com
@@ -493,13 +520,14 @@
              <div class="text-2xl font-heading font-black tracking-tighter text-ink uppercase">Professional Drift | <span class="text-primary italic">The Quiet Line</span></div>
              <div class="mt-8 flex justify-center gap-10 text-[9px] font-bold uppercase tracking-[0.4em] text-gray-400">
                 <a href="https://thequietlinebook.com" target="_blank" class="hover:text-primary transition-colors">thequietlinebook.com</a>
-                <a href="https://tristanwalker.com" target="_blank" class="hover:text-primary transition-colors">tristanwalker.com</a>
+                <a href="https://tristianwalker.com" target="_blank" class="hover:text-primary transition-colors">tristianwalker.com</a>
              </div>
         </div>
         <p class="text-[9px] font-bold text-gray-300 tracking-[0.8em] uppercase">© 2026 Tristian Walker Ecosystem</p>
     </footer>
 
     <script>
+        // ─── SCROLL ANIMATIONS ───────────────────────────────────────────────
         const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -508,10 +536,99 @@
                 }
             });
         }, observerOptions);
-
         document.querySelectorAll('.fade-in-section').forEach(section => {
             observer.observe(section);
         });
+
+        // ─── NAV SCROLL BEHAVIOR ─────────────────────────────────────────────
+        const nav = document.getElementById('mainNav');
+        const logoQuiet = document.getElementById('logoQuiet');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                nav.classList.add('nav-scrolled');
+                nav.querySelectorAll('a:not(.available-now-btn)').forEach(a => {
+                    if (!a.classList.contains('text-primary')) {
+                        a.style.color = '#1A1A1A';
+                    }
+                });
+            } else {
+                nav.classList.remove('nav-scrolled');
+                nav.querySelectorAll('a:not(.available-now-btn)').forEach(a => {
+                    if (!a.classList.contains('text-primary')) {
+                        a.style.color = '';
+                    }
+                });
+            }
+        });
+
+        // ─── AUDIO PLAYER ────────────────────────────────────────────────────
+        const audio = document.getElementById('mainAudio');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        const progressBar = document.getElementById('audioProgress');
+
+        document.getElementById('audioToggle').addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                audio.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const pct = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = pct + '%';
+            }
+        });
+
+        // ─── KIT EMAIL CAPTURE ───────────────────────────────────────────────
+        async function subscribeEmail(email, formEl, wrapperEl) {
+            const submitBtn = formEl.querySelector('button[type="submit"]');
+            submitBtn.classList.add('btn-loading');
+            submitBtn.textContent = 'Joining...';
+
+            try {
+                const res = await fetch('/api/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    wrapperEl.innerHTML = `
+                        <div class="form-success">
+                            <p>You're in. Check your inbox.</p>
+                        </div>
+                    `;
+                } else {
+                    submitBtn.classList.remove('btn-loading');
+                    submitBtn.textContent = 'Join';
+                    alert(data.error || 'Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                submitBtn.classList.remove('btn-loading');
+                submitBtn.textContent = 'Join';
+                alert('Something went wrong. Please try again.');
+            }
+        }
+
+        // Hero form
+        document.getElementById('leadFormHero').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('heroEmail').value;
+            await subscribeEmail(email, this, document.getElementById('heroFormWrapper'));
+        });
+
+        // ─── RESERVE YOUR SEAT ───────────────────────────────────────────────
+        // Replace '#' with your lecture URL when it's live
+        // e.g. document.getElementById('reserveSeatBtn').href = 'https://your-lecture-url.com';
     </script>
 </body>
 </html>
