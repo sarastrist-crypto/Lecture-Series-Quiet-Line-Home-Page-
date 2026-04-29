@@ -179,27 +179,53 @@
             text-shadow: 0 2px 60px rgba(196,164,132,0.25);
         }
 
-        /* ─── CELLS: drift in + ambient breathing ───────────────────
-           Each "cell" (info card) emerges from below with blur, then
-           continues a barely-visible drift loop, like floating in mist.
+        /* ─── CELLS: emerge-from-mist with spring + halo, then drift ─
+           Each cell starts deep in fog (heavy blur, scaled down,
+           translated down). On scroll-in: a back-out spring snaps it
+           into place while a brief radial-tan halo pulses out behind
+           it (the mist dissipating). Then it settles into the slow
+           float-a/b/c idle drift.
         ──────────────────────────────────────────────────────────── */
         .cell {
+            position: relative;
             opacity: 0;
-            transform: translateY(60px);
-            filter: blur(12px);
-            transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 1.4s ease-out;
+            transform: translateY(48px) scale(0.94);
+            filter: blur(24px);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.95s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        filter 0.7s ease-out;
             will-change: transform, opacity, filter;
         }
         .cell.in {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
             filter: blur(0);
         }
-        .cell.in.float-a { animation: float-a 12s ease-in-out infinite alternate 1.4s; }
-        .cell.in.float-b { animation: float-b 16s ease-in-out infinite alternate 1.4s; }
-        .cell.in.float-c { animation: float-c 14s ease-in-out infinite alternate 1.4s; }
+        /* Mist halo — brief radial-tan glow that pulses out as the
+           cell resolves. Pure CSS pseudo, no DOM noise. */
+        .cell::before {
+            content: '';
+            position: absolute;
+            inset: -24px;
+            background: radial-gradient(circle, rgba(196,164,132,0.45) 0%, rgba(196,164,132,0.15) 35%, transparent 65%);
+            opacity: 0;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(28px);
+            transform: scale(0.7);
+        }
+        .cell.in::before {
+            animation: cell-mist-emerge 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes cell-mist-emerge {
+            0%   { opacity: 0;    transform: scale(0.7); }
+            35%  { opacity: 0.85; transform: scale(1.15); }
+            100% { opacity: 0;    transform: scale(1.45); }
+        }
+        .cell.in.float-a { animation: float-a 12s ease-in-out infinite alternate 1.0s; }
+        .cell.in.float-b { animation: float-b 16s ease-in-out infinite alternate 1.0s; }
+        .cell.in.float-c { animation: float-c 14s ease-in-out infinite alternate 1.0s; }
 
         @keyframes float-a {
             from { transform: translate(0, 0) rotate(-0.15deg); }
