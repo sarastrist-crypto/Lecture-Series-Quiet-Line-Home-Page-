@@ -467,13 +467,13 @@
         ──────────────────────────────────────────────────────────── */
         .np-stage {
             position: fixed;
-            bottom: 5rem;
+            bottom: 4.75rem;
             left: 50%;
             width: 90%;
-            max-width: 480px;
-            height: 156px;
+            max-width: 460px;
+            height: 116px;
             z-index: 89;
-            border-radius: 18px;
+            border-radius: 16px;
             overflow: hidden;
             background: #0F0E0D;
             border: 1px solid rgba(196,164,132,0.32);
@@ -514,13 +514,13 @@
         .np-cap {
             position: absolute; inset: 0;
             display: flex; align-items: center; justify-content: center;
-            padding: 1.5rem 1.75rem 0.5rem;
+            padding: 1rem 1.5rem;
             text-align: center;
             font-family: 'Fraunces', serif;
             font-style: italic;
             font-weight: 300;
             color: #F5F1E8;
-            font-size: clamp(1rem, 1.7vw, 1.3rem);
+            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
             line-height: 1.25;
             letter-spacing: -0.01em;
             opacity: 0;
@@ -544,7 +544,7 @@
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
             color: #F5F1E8;
-            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            font-size: clamp(1.4rem, 3.4vw, 2.1rem);
             letter-spacing: -0.02em;
             line-height: 0.9;
         }
@@ -552,14 +552,14 @@
             font-family: 'Fraunces', serif;
             font-style: italic; font-weight: 300;
             color: #C4A484;
-            margin-top: 0.4rem;
-            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            margin-top: 0.3rem;
+            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
             letter-spacing: -0.02em;
         }
 
         @media (max-width: 768px) {
-            .np-stage { height: 124px; bottom: 4.25rem; max-width: calc(100% - 1.5rem); }
-            .np-cap { font-size: 0.95rem; padding: 1rem 1.25rem 0.5rem; }
+            .np-stage { height: 96px; bottom: 4rem; max-width: calc(100% - 1.5rem); border-radius: 14px; }
+            .np-cap { font-size: 0.92rem; padding: 0.85rem 1rem; line-height: 1.2; }
         }
 
         /* ─── MOBILE NAV DRAWER ─────────────────────────────────────── */
@@ -1287,15 +1287,18 @@
             const npStage = document.getElementById('npStage');
             const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
 
-            // Caption schedule (seconds) — matches the V.O. timing in audio.mp3
+            // Caption schedule (seconds) — generated from per-phrase Brian
+            // segment durations (see _build/gen_audio_v2.py). Each cue starts
+            // ~0.25s before the spoken phrase and lingers ~0.35s after, so
+            // the caption visibly anticipates and tails the audio.
             const SCHEDULE = [
-                { idx: 0, start: 3.0,  end: 7.5  },   // "In every interaction…"
-                { idx: 1, start: 7.5,  end: 12.5 },   // "…there is a quiet line."
-                { idx: 2, start: 12.5, end: 19.5 },   // "between presence and process."
-                { idx: 3, start: 19.5, end: 27.5 },   // "task overrules the human…"
-                { idx: 4, start: 27.5, end: 33.5 },   // "Most never notice it. The few who do…"
-                { idx: 5, start: 33.5, end: 42.5 },   // Title card
-                { idx: 6, start: 42.5, end: 46.0 }    // "A lecture by Tristian Walker."
+                { idx: 0, start: 2.75,  end: 5.15  },   // "In every interaction…"
+                { idx: 1, start: 5.10,  end: 7.35  },   // "…there is a quiet line."
+                { idx: 2, start: 7.50,  end: 10.95 },   // "between presence and process."
+                { idx: 3, start: 11.00, end: 15.31 },   // "task overrules the human, character drifts."
+                { idx: 4, start: 15.31, end: 18.76 },   // "Most never notice it. The few who do…"
+                { idx: 5, start: 18.81, end: 42.30 },   // Title card (visual beat over drone)
+                { idx: 6, start: 42.25, end: 44.65 }    // "A lecture by Tristian Walker."
             ];
 
             function fmtTime(t, total) {
