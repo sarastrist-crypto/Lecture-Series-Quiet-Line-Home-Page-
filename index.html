@@ -724,7 +724,7 @@
                 <div id="audioProgress" class="h-full bg-primary w-0 transition-all duration-300"></div>
             </div>
         </div>
-        <audio id="mainAudio" src="/audio.mp3?v=5" preload="metadata"></audio>
+        <audio id="mainAudio" src="/audio.mp3?v=6" preload="metadata"></audio>
     </div>
 
     <!-- ═══ NAVIGATION ═══ -->
@@ -1304,17 +1304,18 @@
             const npStage = document.getElementById('npStage');
             const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
 
-            // Caption schedule (seconds) — v5 build with cleaned phrase
-            // boundaries (silence-trimmed + fades, see gen_audio_v5.py).
-            // Total runtime 26.78s. No audible click between phrases.
+            // Caption schedule (seconds) — v6 build with new closing byline:
+            // "The Quiet Line, a lecture by Tristian Walker." Same v5
+            // cleaning pipeline (silence-trimmed + fades, gentle duck).
+            // Total runtime 28.18s.
             const SCHEDULE = [
                 { idx: 0, start:  0.35, end:  3.60 },   // "In every interaction…"
                 { idx: 1, start:  3.45, end:  6.51 },   // "Between presence and process."
                 { idx: 2, start:  6.38, end: 10.23 },   // "…character drifts."
                 { idx: 3, start: 10.13, end: 14.14 },   // "Most never notice. The few who do — take action."
                 { idx: 4, start: 14.07, end: 19.37 },   // "For those who've drifted — numb to what could still be."
-                { idx: 5, start: 19.24, end: 24.20 },   // "Join me. Explore the possibilities of you."
-                { idx: 6, start: 24.20, end: 26.80 }    // Title card + byline composite
+                { idx: 5, start: 19.24, end: 24.72 },   // "Join me. Explore the possibilities of you."
+                { idx: 6, start: 24.67, end: 27.83 }    // Title card: "The Quiet Line, a lecture by Tristian Walker."
             ];
 
             function fmtTime(t, total) {
