@@ -724,7 +724,7 @@
                 <div id="audioProgress" class="h-full bg-primary w-0 transition-all duration-300"></div>
             </div>
         </div>
-        <audio id="mainAudio" src="/audio.mp3?v=4" preload="metadata"></audio>
+        <audio id="mainAudio" src="/audio.mp3?v=5" preload="metadata"></audio>
     </div>
 
     <!-- ═══ NAVIGATION ═══ -->
@@ -840,11 +840,12 @@
                 <div class="mb-5 text-primary font-bold tracking-[0.45em] uppercase text-[12px]">
                     <span class="hairline mr-3"></span> Segment 01 — The Foundation
                 </div>
-                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(2.75rem, 6.5vw, 5.5rem);">
+                <h2 class="hero-display text-ink" style="font-size: clamp(2.75rem, 6.5vw, 5.5rem); line-height: 0.95; margin-bottom: 0.4rem;">
                     Character
-                    <br/>
-                    <span class="hero-serif text-primary">at scale.</span>
                 </h2>
+                <div class="text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; padding-bottom: 0.18em; margin-bottom: 2.5rem;">
+                    at scale.
+                </div>
                 <p class="pull-quote text-ink mb-12">
                     "Drift is what happens when you perform the task perfectly, but lose the human entirely."
                 </p>
@@ -920,11 +921,12 @@
                     Segment 02 — The Diagnosis
                     <span class="hairline"></span>
                 </div>
-                <h2 class="hero-display text-ink mb-8" style="font-size: clamp(2.75rem, 8.5vw, 7.5rem);">
+                <h2 class="hero-display text-ink" style="font-size: clamp(2.75rem, 7.5vw, 6.5rem); line-height: 0.95; margin-bottom: 0.4rem;">
                     The Wall of
-                    <br/>
-                    <span class="hero-serif text-primary">anonymity.</span>
                 </h2>
+                <div class="text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.5rem, 7vw, 6rem); line-height: 1.05; letter-spacing: -0.025em; padding-bottom: 0.18em; margin-bottom: 2rem;">
+                    anonymity.
+                </div>
                 <p class="pull-quote text-ink/55 max-w-2xl mx-auto">
                     "You cannot course-correct a ghost in the interaction."
                 </p>
@@ -1017,11 +1019,12 @@
                     <span class="hairline"></span>
                     Segment 03 — The Reframe
                 </div>
-                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(2.75rem, 7vw, 6rem);">
+                <h2 class="hero-display text-ink" style="font-size: clamp(2.75rem, 7vw, 6rem); line-height: 0.95; margin-bottom: 0.4rem;">
                     The Foundation
-                    <br/>
-                    <span class="hero-serif text-primary">is character.</span>
                 </h2>
+                <div class="text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.4rem, 6.5vw, 5.5rem); line-height: 1.05; letter-spacing: -0.025em; padding-bottom: 0.18em; margin-bottom: 2.5rem;">
+                    is character.
+                </div>
                 <p class="pull-quote text-ink/55 mb-16">
                     The fact that you notice the disconnection means the part of you that knows why you chose a life of service is still awake.
                 </p>
@@ -1100,10 +1103,10 @@
         </div>
 
         <div class="relative z-10 max-w-5xl mx-auto px-8 text-center">
-            <h2 class="hero-display kinetic mb-2" style="font-size: clamp(3rem, 11vw, 9rem);">
+            <h2 class="hero-display kinetic" style="font-size: clamp(3rem, 11vw, 9rem); line-height: 0.95; margin-bottom: 0.4rem;">
                 The Quiet
             </h2>
-            <h2 class="hero-serif text-primary mb-16" style="font-size: clamp(3rem, 11vw, 9rem); line-height: 0.85;">
+            <h2 class="text-primary mb-16" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.6rem, 9.5vw, 7.5rem); line-height: 1.05; letter-spacing: -0.025em; padding-bottom: 0.18em;">
                 Line<span class="text-primary">.</span>
             </h2>
 
@@ -1147,9 +1150,12 @@
                 <div class="inline-flex items-center gap-3 mb-6 text-[12px] font-bold text-ink/40 uppercase tracking-[0.55em]">
                     <span class="hairline"></span> The Dossier
                 </div>
-                <h2 class="hero-display text-ink" style="font-size: clamp(3rem, 7vw, 6rem);">
-                    Research <span class="hero-serif text-primary">foundation.</span>
+                <h2 class="hero-display text-ink" style="font-size: clamp(2.75rem, 6.5vw, 5.5rem); line-height: 0.95; margin-bottom: 0.4rem;">
+                    Research
                 </h2>
+                <div class="text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.4rem, 6vw, 5rem); line-height: 1.05; letter-spacing: -0.025em; padding-bottom: 0.18em;">
+                    foundation.
+                </div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-x-20 gap-y-8 text-[12px] leading-relaxed">
@@ -1298,18 +1304,17 @@
             const npStage = document.getElementById('npStage');
             const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
 
-            // Caption schedule (seconds) — v4 tight-pacing build
-            // (see _build/gen_audio_v4.py). Total runtime ~28s, gaps
-            // between phrases 0.2–0.28s. Each cue brackets the spoken
-            // phrase by ~0.15s.
+            // Caption schedule (seconds) — v5 build with cleaned phrase
+            // boundaries (silence-trimmed + fades, see gen_audio_v5.py).
+            // Total runtime 26.78s. No audible click between phrases.
             const SCHEDULE = [
-                { idx: 0, start:  0.35, end:  3.78 },   // "In every interaction…"
-                { idx: 1, start:  3.63, end:  6.91 },   // "Between presence and process."
-                { idx: 2, start:  6.78, end: 10.84 },   // "…character drifts."
-                { idx: 3, start: 10.74, end: 14.88 },   // "Most never notice. The few who do — take action."
-                { idx: 4, start: 14.81, end: 20.31 },   // "For those who've drifted — numb to what could still be."
-                { idx: 5, start: 20.18, end: 25.50 },   // "Join me. Explore the possibilities of you."
-                { idx: 6, start: 25.50, end: 28.20 }    // Title card + byline composite
+                { idx: 0, start:  0.35, end:  3.60 },   // "In every interaction…"
+                { idx: 1, start:  3.45, end:  6.51 },   // "Between presence and process."
+                { idx: 2, start:  6.38, end: 10.23 },   // "…character drifts."
+                { idx: 3, start: 10.13, end: 14.14 },   // "Most never notice. The few who do — take action."
+                { idx: 4, start: 14.07, end: 19.37 },   // "For those who've drifted — numb to what could still be."
+                { idx: 5, start: 19.24, end: 24.20 },   // "Join me. Explore the possibilities of you."
+                { idx: 6, start: 24.20, end: 26.80 }    // Title card + byline composite
             ];
 
             function fmtTime(t, total) {
