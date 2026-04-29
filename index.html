@@ -63,7 +63,8 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
-            filter: url(#wisp);
+            contain: layout paint;
+            /* Wisp turbulence filter removed for perf; CSS-only drift remains. */
         }
 
         .drift-stage.dark { mix-blend-mode: screen; }
@@ -74,7 +75,7 @@
             height: 70vmax;
             border-radius: 50%;
             opacity: 0.55;
-            filter: blur(80px);
+            filter: blur(56px);
             will-change: transform;
         }
 
@@ -454,203 +455,8 @@
         }
         body.has-cursor .cursor-fog { opacity: 1; }
 
-        /* ─── TEASER PIP (45s trailer preview) ──────────────────────
-           Floating frame, top-right by default. Click expands to a
-           centered modal w/ backdrop. Captions swap on a 45s loop.
-        ──────────────────────────────────────────────────────────── */
-        .teaser {
-            position: fixed;
-            top: 5.25rem;
-            right: 1.25rem;
-            width: 320px;
-            height: 180px;
-            z-index: 95;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #0F0E0D;
-            border: 1px solid rgba(196,164,132,0.32);
-            box-shadow: 0 30px 80px -20px rgba(0,0,0,0.65),
-                        inset 0 1px 0 rgba(196,164,132,0.18);
-            cursor: pointer;
-            transition: width 0.7s cubic-bezier(0.16,1,0.3,1),
-                        height 0.7s cubic-bezier(0.16,1,0.3,1),
-                        top 0.7s cubic-bezier(0.16,1,0.3,1),
-                        right 0.7s cubic-bezier(0.16,1,0.3,1),
-                        transform 0.4s ease,
-                        opacity 0.4s ease,
-                        border-radius 0.5s ease;
-        }
-        .teaser:hover { transform: translateY(-3px) scale(1.015); }
-        .teaser[data-state="expanded"] {
-            width: min(820px, 92vw);
-            height: min(461px, 51.75vw);
-            top: 50%;
-            right: 50%;
-            transform: translate(50%, -50%);
-            border-radius: 24px;
-        }
-        .teaser[data-state="expanded"]:hover { transform: translate(50%, -50%); }
-        .teaser[data-state="hidden"] { opacity: 0; pointer-events: none; transform: translateX(120%); }
-
-        .teaser-screen {
-            position: absolute; inset: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(60,50,40,0.55), #0F0E0D 85%);
-            overflow: hidden;
-        }
-        .teaser-fog { position: absolute; inset: -25%; filter: blur(50px); opacity: 0.7; }
-        .teaser-fog::before, .teaser-fog::after {
-            content: ''; position: absolute; width: 75%; height: 75%; border-radius: 50%;
-        }
-        .teaser-fog::before {
-            background: radial-gradient(circle, rgba(196,164,132,0.85), transparent 60%);
-            top: -10%; left: -10%;
-            animation: drift-a 26s ease-in-out infinite alternate;
-        }
-        .teaser-fog::after {
-            background: radial-gradient(circle, rgba(120,100,80,0.7), transparent 60%);
-            bottom: -10%; right: -10%;
-            animation: drift-b 32s ease-in-out infinite alternate;
-        }
-
-        .teaser-caption {
-            position: absolute; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            padding: 1.5rem 1.75rem;
-            text-align: center;
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 300;
-            color: #F5F1E8;
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            line-height: 1.3;
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .teaser-caption.show { opacity: 1; transform: translateY(0); }
-        .teaser[data-state="expanded"] .teaser-caption { font-size: clamp(1.4rem, 2.6vw, 2rem); }
-        .teaser-caption em { color: #C4A484; font-style: italic; }
-
-        .teaser-title-card {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 1rem;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        .teaser-title-card.show { opacity: 1; }
-        .teaser-title-card .display {
-            font-family: 'Anton', sans-serif;
-            font-size: clamp(1.4rem, 4.5vw, 3rem);
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-            color: #F5F1E8;
-            line-height: 0.88;
-        }
-        .teaser-title-card .serif {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 300;
-            color: #C4A484;
-            margin-top: 0.5rem;
-            font-size: clamp(0.95rem, 2.4vw, 1.5rem);
-            letter-spacing: -0.02em;
-        }
-        .teaser-title-card .byline {
-            margin-top: 1rem;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(245,241,232,0.55);
-        }
-        .teaser[data-state="expanded"] .teaser-title-card .display { font-size: clamp(2.2rem, 7vw, 5rem); }
-        .teaser[data-state="expanded"] .teaser-title-card .serif  { font-size: clamp(1.4rem, 3.5vw, 2.5rem); }
-
-        .teaser-badge {
-            position: absolute;
-            top: 0.75rem; left: 0.75rem;
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.32em;
-            text-transform: uppercase;
-            color: #C4A484;
-            background: rgba(15,14,13,0.7);
-            padding: 0.3rem 0.55rem;
-            border-radius: 4px;
-            border: 1px solid rgba(196,164,132,0.3);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 5;
-        }
-
-        .teaser-hud {
-            position: absolute;
-            top: 0.6rem; right: 0.6rem;
-            display: flex;
-            gap: 0.35rem;
-            z-index: 5;
-        }
-        .teaser-hud button {
-            width: 26px; height: 26px;
-            border-radius: 999px;
-            background: rgba(15,14,13,0.7);
-            border: 1px solid rgba(196,164,132,0.3);
-            color: #F5F1E8;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: background 0.3s ease, transform 0.2s ease;
-            padding: 0;
-        }
-        .teaser-hud button:hover { background: rgba(196,164,132,0.45); transform: scale(1.08); }
-        .teaser-hud button.on { background: rgba(196,164,132,0.45); }
-        .teaser-hud svg { width: 12px; height: 12px; }
-
-        .teaser-progress {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-            background: rgba(245,241,232,0.1);
-            z-index: 5;
-        }
-        .teaser-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #C4A484, #F5F1E8);
-            width: 0%;
-            transition: width 0.12s linear;
-        }
-
-        .teaser-timer {
-            position: absolute;
-            bottom: 0.6rem; left: 0.75rem;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: rgba(245,241,232,0.7);
-            font-variant-numeric: tabular-nums;
-            font-family: 'Inter', sans-serif;
-            z-index: 5;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-
-        .teaser-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(15,14,13,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 94;
-            transition: opacity 0.6s ease;
-        }
-        .teaser-backdrop.show { opacity: 1; pointer-events: auto; }
+        /* ─── PERF: defer paint of below-fold sections ──────────────── */
+        section { content-visibility: auto; contain-intrinsic-size: 1px 800px; }
 
         /* ─── MOBILE NAV DRAWER ─────────────────────────────────────── */
         .mobile-menu-toggle {
@@ -739,24 +545,6 @@
             header { min-height: 100vh; }
             .glass, .glass-dark { padding: 1.75rem !important; border-radius: 1.5rem !important; }
             .audio-bar { bottom: 0.75rem; padding: 0.5rem 1rem; }
-            /* Teaser PiP — bottom-right, smaller, sits above audio bar */
-            .teaser {
-                width: 180px;
-                height: 101px;
-                top: auto;
-                bottom: 5.25rem;
-                right: 0.75rem;
-            }
-            .teaser[data-state="expanded"] {
-                width: 92vw;
-                height: 51.75vw;
-                top: 50%;
-                right: 50%;
-                bottom: auto;
-            }
-            .teaser-badge { font-size: 7px; padding: 0.2rem 0.4rem; letter-spacing: 0.25em; }
-            .teaser-hud button { width: 22px; height: 22px; }
-            .teaser-hud svg { width: 10px; height: 10px; }
             .pull-quote { font-size: clamp(1.2rem, 4vw, 1.8rem) !important; }
         }
 
@@ -769,15 +557,7 @@
 </head>
 <body class="font-body antialiased">
 
-    <!-- ═══ SVG FILTER DEFS — wisp distortion (animated turbulence) ═══ -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <filter id="wisp">
-            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3" result="t">
-                <animate attributeName="baseFrequency" dur="40s" values="0.008 0.012; 0.014 0.008; 0.008 0.012" repeatCount="indefinite"/>
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="t" scale="120"/>
-        </filter>
-    </svg>
+    <!-- (Wisp turbulence filter removed — was page-wide compositing cost.) -->
 
     <!-- ═══ GRAIN OVERLAY (top of stack, all sections) ═══ -->
     <div class="grain" aria-hidden="true"></div>
@@ -785,43 +565,7 @@
     <!-- ═══ CURSOR FOG ═══ -->
     <div class="cursor-fog" id="cursorFog" aria-hidden="true"></div>
 
-    <!-- ═══ FLOATING TEASER PIP (45-second trailer preview) ═══════
-         Placeholder shell: real motion + real timing + real captions
-         on a 45s loop. Final video will be Remotion-rendered with
-         ElevenLabs narration. Click to expand into a centered modal.
-    ═══════════════════════════════════════════════════════════ -->
-    <div class="teaser-backdrop" id="teaserBackdrop" aria-hidden="true"></div>
-    <aside class="teaser" id="teaser" data-state="docked" role="region" aria-label="Lecture trailer">
-        <div class="teaser-screen">
-            <video id="teaserVideo"
-                   src="/trailer.mp4"
-                   muted
-                   playsinline
-                   autoplay
-                   loop
-                   preload="auto"
-                   style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#0F0E0D;">
-            </video>
-
-            <span class="teaser-badge">45s Trailer</span>
-
-            <div class="teaser-hud">
-                <button class="teaser-mute" id="teaserMute" aria-label="Toggle audio">
-                    <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9v6h4l5 5V4L7 9H3z"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
-                    <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 8a4 4 0 010 8M19 5a8 8 0 010 14"/></svg>
-                </button>
-                <button class="teaser-expand" id="teaserExpand" aria-label="Expand">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6"/></svg>
-                </button>
-                <button class="teaser-close" id="teaserClose" aria-label="Hide trailer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
-                </button>
-            </div>
-
-            <div class="teaser-timer" id="teaserTimer">0:00 / 0:45</div>
-            <div class="teaser-progress"><div class="teaser-progress-fill" id="teaserFill"></div></div>
-        </div>
-    </aside>
+    <!-- (Floating teaser PiP removed — narration now plays via the bottom audio ribbon.) -->
 
     <!-- ═══ MOBILE MENU OVERLAY ═══ -->
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
@@ -843,12 +587,15 @@
             </button>
         </div>
         <div class="flex-grow">
-            <div class="text-[9px] font-bold text-primary uppercase tracking-[0.32em] mb-1">Listen — The Author's Brief</div>
+            <div class="text-[9px] font-bold text-primary uppercase tracking-[0.32em] mb-1 flex items-center gap-3">
+                <span>Listen — The Author's Brief</span>
+                <span id="audioTimer" class="text-bone/45 font-medium tracking-[0.15em]">0:00 / 0:45</span>
+            </div>
             <div class="h-[3px] bg-bone/10 rounded-full overflow-hidden">
                 <div id="audioProgress" class="h-full bg-primary w-0 transition-all duration-300"></div>
             </div>
         </div>
-        <audio id="mainAudio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+        <audio id="mainAudio" src="/audio.mp3" preload="metadata"></audio>
     </div>
 
     <!-- ═══ NAVIGATION ═══ -->
@@ -1368,23 +1115,36 @@
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
-        // ─── CURSOR FOG (mouse follower, smoothed) ──────────────────
-        const cursorFog = document.getElementById('cursorFog');
-        let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-        let cx = mx, cy = my;
-        document.body.classList.add('has-cursor');
-        window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-        window.addEventListener('mouseleave', () => document.body.classList.remove('has-cursor'));
-        window.addEventListener('mouseenter', () => document.body.classList.add('has-cursor'));
-        function tickCursor() {
-            cx += (mx - cx) * 0.08;
-            cy += (my - cy) * 0.08;
-            cursorFog.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
-            requestAnimationFrame(tickCursor);
-        }
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.innerWidth > 768) {
-            requestAnimationFrame(tickCursor);
-        }
+        // ─── CURSOR FOG (mouse follower, lazy — armed on first move) ─
+        // Skip on touch devices, reduced-motion, and small viewports. Don't
+        // start the rAF loop until the user actually moves the pointer; saves
+        // a continuous animation frame on idle desktop loads.
+        (function(){
+            const cursorFog = document.getElementById('cursorFog');
+            if (!cursorFog) return;
+            const ok = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+                    && !window.matchMedia('(hover: none)').matches
+                    && window.innerWidth > 768;
+            if (!ok) return;
+            let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+            let cx = mx, cy = my, running = false;
+            function tick(){
+                cx += (mx - cx) * 0.08;
+                cy += (my - cy) * 0.08;
+                cursorFog.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+                requestAnimationFrame(tick);
+            }
+            window.addEventListener('mousemove', (e) => {
+                mx = e.clientX; my = e.clientY;
+                if (!running) {
+                    running = true;
+                    document.body.classList.add('has-cursor');
+                    requestAnimationFrame(tick);
+                }
+            }, { passive: true });
+            window.addEventListener('mouseleave', () => document.body.classList.remove('has-cursor'));
+            window.addEventListener('mouseenter', () => document.body.classList.add('has-cursor'));
+        })();
 
         // ─── DOMAIN CHIP RADIAL HOVER ───────────────────────────────
         document.querySelectorAll('.domain-chip').forEach(chip => {
@@ -1395,11 +1155,17 @@
             });
         });
 
-        // ─── AUDIO PLAYER ────────────────────────────────────────────
+        // ─── AUDIO PLAYER (teaser narration: Brian VO + drone) ───────
         const audio = document.getElementById('mainAudio');
         const playIcon = document.getElementById('playIcon');
         const pauseIcon = document.getElementById('pauseIcon');
         const progressBar = document.getElementById('audioProgress');
+        const audioTimer = document.getElementById('audioTimer');
+        function fmtTime(t, total) {
+            const mm = (n) => Math.floor(Math.max(0, n) % 60).toString().padStart(2, '0');
+            const m = (n) => Math.floor(Math.max(0, n) / 60);
+            return `${m(t)}:${mm(t)} / ${m(total)}:${mm(total)}`;
+        }
         document.getElementById('audioToggle').addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -1412,10 +1178,20 @@
             }
         });
         audio.addEventListener('timeupdate', () => {
+            const dur = audio.duration || 45;
             if (audio.duration) {
-                const pct = (audio.currentTime / audio.duration) * 100;
-                progressBar.style.width = pct + '%';
+                progressBar.style.width = ((audio.currentTime / dur) * 100) + '%';
             }
+            if (audioTimer) audioTimer.textContent = fmtTime(audio.currentTime || 0, dur);
+        });
+        audio.addEventListener('loadedmetadata', () => {
+            if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
+        });
+        audio.addEventListener('ended', () => {
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+            progressBar.style.width = '0%';
+            if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
         });
 
         // ─── KIT EMAIL CAPTURE ───────────────────────────────────────
@@ -1470,70 +1246,6 @@
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
         })();
 
-        // ─── TEASER PIP — drives chrome from the real <video> element ─
-        (function(){
-            const teaser = document.getElementById('teaser');
-            const video = document.getElementById('teaserVideo');
-            const backdrop = document.getElementById('teaserBackdrop');
-            const fill = document.getElementById('teaserFill');
-            const timer = document.getElementById('teaserTimer');
-            const expandBtn = document.getElementById('teaserExpand');
-            const closeBtn = document.getElementById('teaserClose');
-            const muteBtn = document.getElementById('teaserMute');
-            if (!teaser || !video) return;
-
-            let expanded = false;
-
-            function fmt(sec){
-                const s = Math.floor(Math.max(0, sec) % 60).toString().padStart(2,'0');
-                return `0:${s} / 0:45`;
-            }
-            function syncChrome(){
-                const dur = video.duration || 45;
-                const t = video.currentTime || 0;
-                fill.style.width = ((t / dur) * 100) + '%';
-                timer.textContent = fmt(t);
-            }
-            video.addEventListener('timeupdate', syncChrome);
-            video.addEventListener('loadedmetadata', syncChrome);
-
-            function setExpanded(on){
-                expanded = on;
-                teaser.dataset.state = on ? 'expanded' : 'docked';
-                backdrop.classList.toggle('show', on);
-            }
-            expandBtn.addEventListener('click', (e) => { e.stopPropagation(); setExpanded(!expanded); });
-            backdrop.addEventListener('click', () => setExpanded(false));
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                teaser.dataset.state = 'hidden';
-                backdrop.classList.remove('show');
-                video.pause();
-            });
-
-            const mutedIcon = muteBtn.querySelector('.icon-muted');
-            const unmutedIcon = muteBtn.querySelector('.icon-unmuted');
-            muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                video.muted = !video.muted;
-                muteBtn.classList.toggle('on', !video.muted);
-                if (mutedIcon)   mutedIcon.style.display   = video.muted ? '' : 'none';
-                if (unmutedIcon) unmutedIcon.style.display = video.muted ? 'none' : '';
-                // First user gesture allows audio playback
-                if (!video.muted) video.play().catch(()=>{});
-            });
-
-            teaser.addEventListener('click', (e) => {
-                if (e.target.closest('button')) return;
-                if (!expanded) setExpanded(true);
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && expanded) setExpanded(false);
-            });
-
-            // Autoplay can be blocked; nudge it
-            video.play().catch(()=>{});
-        })();
     </script>
 </body>
 </html>
