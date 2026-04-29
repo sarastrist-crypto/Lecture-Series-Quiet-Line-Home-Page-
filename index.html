@@ -458,6 +458,110 @@
         /* ─── PERF: defer paint of below-fold sections ──────────────── */
         section { content-visibility: auto; contain-intrinsic-size: 1px 800px; }
 
+        /* ─── NOW-PLAYING STAGE (sits above the audio ribbon) ───────
+           Only visible while audio is playing. Inside the small frame:
+           drift fog + grain + serif italic captions populating in
+           sync with the V.O. timeline. Single artifact UX preserved
+           (one ribbon at the bottom; this stage is its visual half,
+           it disappears when paused or ended).
+        ──────────────────────────────────────────────────────────── */
+        .np-stage {
+            position: fixed;
+            bottom: 5rem;
+            left: 50%;
+            width: 90%;
+            max-width: 480px;
+            height: 156px;
+            z-index: 89;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #0F0E0D;
+            border: 1px solid rgba(196,164,132,0.32);
+            box-shadow: 0 30px 70px -20px rgba(0,0,0,0.6),
+                        inset 0 1px 0 rgba(196,164,132,0.18);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 12px) scale(0.97);
+            transition: opacity 0.55s ease,
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            contain: layout paint;
+        }
+        .np-stage.show {
+            opacity: 1;
+            transform: translate(-50%, 0) scale(1);
+        }
+
+        .np-fog {
+            position: absolute; inset: -25%;
+            filter: blur(40px);
+            opacity: 0.85;
+        }
+        .np-fog::before, .np-fog::after {
+            content: ''; position: absolute; border-radius: 50%;
+            width: 75%; height: 75%;
+        }
+        .np-fog::before {
+            background: radial-gradient(circle, rgba(196,164,132,0.85), transparent 60%);
+            top: -12%; left: -12%;
+            animation: drift-a 24s ease-in-out infinite alternate;
+        }
+        .np-fog::after {
+            background: radial-gradient(circle, rgba(120,100,80,0.65), transparent 60%);
+            bottom: -12%; right: -12%;
+            animation: drift-b 30s ease-in-out infinite alternate;
+        }
+
+        .np-cap {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem 1.75rem 0.5rem;
+            text-align: center;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-weight: 300;
+            color: #F5F1E8;
+            font-size: clamp(1rem, 1.7vw, 1.3rem);
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            text-shadow: 0 2px 16px rgba(15,14,13,0.7);
+        }
+        .np-cap.show { opacity: 1; transform: translateY(0); }
+        .np-cap em { color: #C4A484; font-style: italic; }
+
+        .np-title {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .np-title.show { opacity: 1; }
+        .np-title .display {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            color: #F5F1E8;
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+        }
+        .np-title .serif {
+            font-family: 'Fraunces', serif;
+            font-style: italic; font-weight: 300;
+            color: #C4A484;
+            margin-top: 0.4rem;
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .np-stage { height: 124px; bottom: 4.25rem; max-width: calc(100% - 1.5rem); }
+            .np-cap { font-size: 0.95rem; padding: 1rem 1.25rem 0.5rem; }
+        }
+
         /* ─── MOBILE NAV DRAWER ─────────────────────────────────────── */
         .mobile-menu-toggle {
             display: none;
@@ -534,7 +638,7 @@
 
         /* ─── MOBILE  ──────────────────────────────────────────────── */
         @media (max-width: 768px) {
-            .hero-display { font-size: clamp(3rem, 13vw, 5.5rem) !important; }
+            .hero-display { font-size: clamp(2.5rem, 11vw, 4.5rem) !important; }
             .nav-links { display: none !important; }
             .mobile-menu-toggle { display: flex !important; }
             .fog-blob { width: 100vmax; height: 100vmax; opacity: 0.45; }
@@ -578,6 +682,21 @@
         </div>
     </div>
 
+    <!-- ═══ NOW-PLAYING STAGE (visible only while audio is playing) ═══ -->
+    <div class="np-stage" id="npStage" aria-hidden="true">
+        <div class="np-fog" aria-hidden="true"></div>
+        <div class="np-cap" data-cap="0"><span class="np-line">In every interaction<span style="color:#C4A484;">…</span></span></div>
+        <div class="np-cap" data-cap="1"><span class="np-line">…there is a <em>quiet line</em>.</span></div>
+        <div class="np-cap" data-cap="2"><span class="np-line">It is the line between <em>presence</em> and <em>process</em>.</span></div>
+        <div class="np-cap" data-cap="3"><span class="np-line">When the task overrules the human, <em>character drifts</em>.</span></div>
+        <div class="np-cap" data-cap="4"><span class="np-line">Most never notice it. <em>The few who do…</em></span></div>
+        <div class="np-title" data-cap="5">
+            <div class="display">Professional Drift</div>
+            <div class="serif">The Quiet Line.</div>
+        </div>
+        <div class="np-cap" data-cap="6"><span class="np-line">A lecture by Tristian Walker.</span></div>
+    </div>
+
     <!-- ═══ FLOATING AUDIO BAR ═══ -->
     <div class="audio-bar">
         <div class="flex-shrink-0">
@@ -587,7 +706,7 @@
             </button>
         </div>
         <div class="flex-grow">
-            <div class="text-[9px] font-bold text-primary uppercase tracking-[0.32em] mb-1 flex items-center gap-3">
+            <div class="text-[11px] font-bold text-primary uppercase tracking-[0.32em] mb-1 flex items-center gap-3">
                 <span>Listen — The Author's Brief</span>
                 <span id="audioTimer" class="text-bone/45 font-medium tracking-[0.15em]">0:00 / 0:45</span>
             </div>
@@ -601,16 +720,16 @@
     <!-- ═══ NAVIGATION ═══ -->
     <nav id="mainNav" class="fixed top-0 w-full z-50 px-8 py-5 flex justify-between items-center">
         <a href="https://thequietlinebook.com" target="_blank" class="flex items-center gap-2 group">
-            <div id="logoContainer" class="text-lg logo-text font-black tracking-tight text-bone">
-                <span id="logoQuiet">The Quiet</span> <span class="text-primary italic font-normal">Line</span>
+            <div id="logoContainer" class="logo-text font-bold text-bone" style="font-size: 1.05rem; letter-spacing: 0.005em;">
+                <span id="logoQuiet">The&nbsp;Quiet</span>&nbsp;<span class="text-primary italic font-normal">Line</span>
             </div>
         </a>
-        <div class="nav-links flex items-center gap-7 text-[10px] font-bold uppercase tracking-[0.32em] text-bone/60">
+        <div class="nav-links flex items-center gap-7 text-[12px] font-bold uppercase tracking-[0.32em] text-bone/60">
             <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-bone transition-colors">TristianWalker.com</a>
             <a href="#definition" class="hover:text-bone transition-colors">01 / Definition</a>
             <a href="#audit" class="hover:text-bone transition-colors">02 / Diagnosis</a>
             <a href="#reframe" class="hover:text-bone transition-colors">03 / Reframe</a>
-            <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-5 py-2.5 rounded text-white tracking-[0.2em] font-bold text-[10px]">Buy The Book</a>
+            <a href="https://thequietlinebook.com" target="_blank" class="available-now-btn px-5 py-2.5 rounded text-white tracking-[0.2em] font-bold text-[12px]">Buy The Book</a>
         </div>
         <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Open menu" aria-expanded="false">
             <span></span><span></span><span></span>
@@ -634,16 +753,16 @@
 
         <div class="relative z-10 max-w-6xl px-8 text-center text-bone">
 
-            <div class="inline-flex items-center gap-3 mb-12 text-[10px] font-bold text-primary uppercase tracking-[0.55em]">
+            <div class="inline-flex items-center gap-3 mb-12 text-[12px] font-bold text-primary uppercase tracking-[0.55em]">
                 <span class="hairline"></span>
                 A Lecture by Tristian Walker
                 <span class="hairline"></span>
             </div>
 
-            <h1 class="hero-display kinetic mb-2" style="font-size: clamp(4rem, 13vw, 11rem);">
+            <h1 class="hero-display kinetic mb-2" style="font-size: clamp(3rem, 10vw, 8rem);">
                 The Interaction
             </h1>
-            <h1 class="hero-display mb-12" style="font-size: clamp(3rem, 10vw, 8rem);">
+            <h1 class="hero-display mb-12" style="font-size: clamp(2.5rem, 8vw, 6.5rem);">
                 <span class="hero-serif text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;">Nobody Meant</span>
                 <br/>
                 <span class="ghost-fill">to Lose</span><span class="text-primary">.</span>
@@ -667,11 +786,11 @@
                         Join
                     </button>
                 </form>
-                <div class="mt-3 text-[9px] text-bone/40 uppercase tracking-[0.4em]">Lecture notes &nbsp;·&nbsp; Author briefings &nbsp;·&nbsp; No spam</div>
+                <div class="mt-3 text-[11px] text-bone/40 uppercase tracking-[0.4em]">Lecture notes &nbsp;·&nbsp; Author briefings &nbsp;·&nbsp; No spam</div>
             </div>
 
             <!-- Three motifs -->
-            <div class="grid md:grid-cols-3 gap-3 max-w-4xl mx-auto mb-16 text-[10px] font-bold uppercase tracking-[0.32em]">
+            <div class="grid md:grid-cols-3 gap-3 max-w-4xl mx-auto mb-16 text-[12px] font-bold uppercase tracking-[0.32em]">
                 <div class="cell float-a glass-dark p-4 rounded text-primary">Transactional Service</div>
                 <div class="cell float-b glass-dark p-4 rounded text-primary">The Wall of Anonymity</div>
                 <div class="cell float-c glass-dark p-4 rounded text-primary">Standardized Presence</div>
@@ -681,7 +800,7 @@
                 <a href="#definition" class="available-now-btn px-12 py-5 rounded-sm font-bold tracking-[0.2em] uppercase text-xs shadow-2xl text-white">
                     Begin The Lecture
                 </a>
-                <a href="https://tristianwalker.com" target="_blank" class="text-bone/60 hover:text-primary transition-all text-[10px] uppercase tracking-[0.45em] font-bold">
+                <a href="https://tristianwalker.com" target="_blank" class="text-bone/60 hover:text-primary transition-all text-[12px] uppercase tracking-[0.45em] font-bold">
                     Visit TristianWalker.com →
                 </a>
             </div>
@@ -707,10 +826,10 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
             <div class="cell">
-                <div class="mb-5 text-primary font-bold tracking-[0.45em] uppercase text-[10px]">
+                <div class="mb-5 text-primary font-bold tracking-[0.45em] uppercase text-[12px]">
                     <span class="hairline mr-3"></span> Segment 01 — The Foundation
                 </div>
-                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(3.5rem, 8vw, 7rem);">
+                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(2.75rem, 6.5vw, 5.5rem);">
                     Character
                     <br/>
                     <span class="hero-serif text-primary">at scale.</span>
@@ -725,39 +844,39 @@
                             The Transactional Task
                             <span class="text-primary font-medium opacity-60 ml-2">/ Reactive</span>
                         </h4>
-                        <p class="text-[13px] text-ink/65 leading-relaxed font-light">When the "Job Description" becomes a psychological shield. You stop seeing the human struggle and start seeing the checklist. You are no longer serving; you are processing.</p>
+                        <p class="text-[14px] text-ink/65 leading-relaxed font-light">When the "Job Description" becomes a psychological shield. You stop seeing the human struggle and start seeing the checklist. You are no longer serving; you are processing.</p>
                     </div>
                     <div class="cell signal-card glass pl-8 pr-8 py-7 rounded-2xl">
                         <h4 class="font-bold text-ink uppercase tracking-[0.22em] text-[11px] mb-2">
                             The Expertise Ego
                             <span class="text-primary font-medium opacity-60 ml-2">/ Success Trap</span>
                         </h4>
-                        <p class="text-[13px] text-ink/65 leading-relaxed font-light">You are celebrated for your efficiency and accuracy. But as your professional mastery grows, your capacity for hospitality atrophies. You are an expert and an island.</p>
+                        <p class="text-[14px] text-ink/65 leading-relaxed font-light">You are celebrated for your efficiency and accuracy. But as your professional mastery grows, your capacity for hospitality atrophies. You are an expert and an island.</p>
                     </div>
                     <div class="cell signal-card glass pl-8 pr-8 py-7 rounded-2xl">
                         <h4 class="font-bold text-ink uppercase tracking-[0.22em] text-[11px] mb-2">
                             The Industry Noise
                             <span class="text-primary font-medium opacity-60 ml-2">/ Systemic</span>
                         </h4>
-                        <p class="text-[13px] text-ink/65 leading-relaxed font-light">The environment demands speed over resonance. Gradually, you stop fighting the "Broken System" and start mirroring its coldness.</p>
+                        <p class="text-[14px] text-ink/65 leading-relaxed font-light">The environment demands speed over resonance. Gradually, you stop fighting the "Broken System" and start mirroring its coldness.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Motion vs Movement -->
             <div class="cell float-b glass rounded-[2.5rem] p-14 lg:p-16">
-                <div class="text-[10px] font-bold text-ink/40 uppercase tracking-[0.5em] mb-12 pb-3 border-b border-primary/15">
+                <div class="text-[12px] font-bold text-ink/40 uppercase tracking-[0.5em] mb-12 pb-3 border-b border-primary/15">
                     The Surgical Distinction
                 </div>
                 <div class="flex items-center justify-around gap-6 mb-12">
                     <div class="text-center">
                         <div class="hero-display text-ink/15 line-through" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Motion</div>
-                        <div class="mt-5 text-[10px] text-ink/40 font-bold uppercase tracking-[0.4em]">Being Busy</div>
+                        <div class="mt-5 text-[12px] text-ink/40 font-bold uppercase tracking-[0.4em]">Being Busy</div>
                     </div>
                     <div class="hero-serif text-primary opacity-50 text-2xl">vs</div>
                     <div class="text-center">
                         <div class="hero-display text-ink" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">Movement</div>
-                        <div class="mt-5 text-[10px] text-primary font-bold uppercase tracking-[0.4em]">Being New</div>
+                        <div class="mt-5 text-[12px] text-primary font-bold uppercase tracking-[0.4em]">Being New</div>
                     </div>
                 </div>
                 <div class="h-px w-full bg-primary/15 mb-10"></div>
@@ -785,12 +904,12 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-8">
             <div class="text-center mb-24 cell">
-                <div class="inline-flex items-center gap-3 mb-6 text-[10px] font-bold text-primary uppercase tracking-[0.55em]">
+                <div class="inline-flex items-center gap-3 mb-6 text-[12px] font-bold text-primary uppercase tracking-[0.55em]">
                     <span class="hairline"></span>
                     Segment 02 — The Diagnosis
                     <span class="hairline"></span>
                 </div>
-                <h2 class="hero-display text-ink mb-8" style="font-size: clamp(3.5rem, 11vw, 9.5rem);">
+                <h2 class="hero-display text-ink mb-8" style="font-size: clamp(2.75rem, 8.5vw, 7.5rem);">
                     The Wall of
                     <br/>
                     <span class="hero-serif text-primary">anonymity.</span>
@@ -803,36 +922,36 @@
             <!-- 5 signal cells -->
             <div class="grid md:grid-cols-5 gap-5 mb-32">
                 <div class="cell float-a glass p-8 rounded-3xl">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 01</div>
-                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.5rem; line-height: 1;">Transactional Talk</h4>
-                    <p class="text-[11px] text-ink/55 leading-relaxed font-light">Conversations become short-hand for tasks. You are speaking to a "ticket number" or a "role."</p>
+                    <div class="text-primary font-bold text-[11px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 01</div>
+                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.75rem; line-height: 1;">Transactional Talk</h4>
+                    <p class="text-[12.5px] text-ink/65 leading-relaxed font-light">Conversations become short-hand for tasks. You are speaking to a "ticket number" or a "role."</p>
                 </div>
                 <div class="cell float-b glass p-8 rounded-3xl">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 02</div>
-                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.5rem; line-height: 1;">The Scripted Smile</h4>
-                    <p class="text-[11px] text-ink/55 leading-relaxed font-light">Hospitality becomes a protocol instead of a personality. Performing "service," but not "care."</p>
+                    <div class="text-primary font-bold text-[11px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 02</div>
+                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.75rem; line-height: 1;">The Scripted Smile</h4>
+                    <p class="text-[12.5px] text-ink/65 leading-relaxed font-light">Hospitality becomes a protocol instead of a personality. Performing "service," but not "care."</p>
                 </div>
                 <div class="cell float-c glass p-8 rounded-3xl">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 03</div>
-                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.5rem; line-height: 1;">Metric Inertia</h4>
-                    <p class="text-[11px] text-ink/55 leading-relaxed font-light">Efficiency is the only value measured. If you can't quantify it, the system ignores it.</p>
+                    <div class="text-primary font-bold text-[11px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 03</div>
+                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.75rem; line-height: 1;">Metric Inertia</h4>
+                    <p class="text-[12.5px] text-ink/65 leading-relaxed font-light">Efficiency is the only value measured. If you can't quantify it, the system ignores it.</p>
                 </div>
                 <div class="cell float-a glass p-8 rounded-3xl">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 04</div>
-                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.5rem; line-height: 1;">Presence Burnout</h4>
-                    <p class="text-[11px] text-ink/55 leading-relaxed font-light">Being "fully there" becomes a cost you can no longer afford. You detach to preserve.</p>
+                    <div class="text-primary font-bold text-[11px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 04</div>
+                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.75rem; line-height: 1;">Presence Burnout</h4>
+                    <p class="text-[12.5px] text-ink/65 leading-relaxed font-light">Being "fully there" becomes a cost you can no longer afford. You detach to preserve.</p>
                 </div>
                 <div class="cell float-b glass p-8 rounded-3xl">
-                    <div class="text-primary font-bold text-[9px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 05</div>
-                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.5rem; line-height: 1;">Character Decay</h4>
-                    <p class="text-[11px] text-ink/55 leading-relaxed font-light">Who you are at your best is no longer who you are at 3 PM on a Tuesday.</p>
+                    <div class="text-primary font-bold text-[11px] uppercase tracking-[0.3em] mb-7 pb-2 border-b border-primary/15">Signal 05</div>
+                    <h4 class="hero-display text-ink mb-3" style="font-size: 1.75rem; line-height: 1;">Character Decay</h4>
+                    <p class="text-[12.5px] text-ink/65 leading-relaxed font-light">Who you are at your best is no longer who you are at 3 PM on a Tuesday.</p>
                 </div>
             </div>
 
             <!-- Human Audit panel — dark glass over fog -->
             <div class="cell glass-dark max-w-5xl mx-auto p-16 md:p-24 rounded-[3rem] relative overflow-hidden">
                 <div class="text-center mb-16">
-                    <div class="inline-flex items-center gap-3 mb-6 text-primary font-bold text-[10px] uppercase tracking-[0.55em]">
+                    <div class="inline-flex items-center gap-3 mb-6 text-primary font-bold text-[12px] uppercase tracking-[0.55em]">
                         <span class="hairline"></span>
                         The Human Audit
                         <span class="hairline"></span>
@@ -883,11 +1002,11 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-24 items-center">
             <div class="cell">
-                <div class="inline-flex items-center gap-3 mb-8 text-[10px] font-bold text-primary uppercase tracking-[0.55em]">
+                <div class="inline-flex items-center gap-3 mb-8 text-[12px] font-bold text-primary uppercase tracking-[0.55em]">
                     <span class="hairline"></span>
                     Segment 03 — The Reframe
                 </div>
-                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(3.5rem, 9vw, 8rem);">
+                <h2 class="hero-display text-ink mb-10" style="font-size: clamp(2.75rem, 7vw, 6rem);">
                     The Foundation
                     <br/>
                     <span class="hero-serif text-primary">is character.</span>
@@ -928,7 +1047,7 @@
 
             <!-- Drift domain panel -->
             <div class="cell float-c glass rounded-[2.5rem] p-12 md:p-16">
-                <div class="text-[10px] font-bold text-primary uppercase tracking-[0.55em] mb-12 text-center pb-4 border-b border-primary/15">
+                <div class="text-[12px] font-bold text-primary uppercase tracking-[0.55em] mb-12 text-center pb-4 border-b border-primary/15">
                     Where is the drift loudest?
                 </div>
                 <div class="grid grid-cols-2 gap-4">
@@ -952,7 +1071,7 @@
                     </div>
                 </div>
                 <div class="mt-12 pt-8 border-t border-primary/10 text-center">
-                    <p class="text-[10px] text-ink/40 font-bold tracking-[0.5em] uppercase">Humanity is the Ultimate Act of Leadership</p>
+                    <p class="text-[12px] text-ink/40 font-bold tracking-[0.5em] uppercase">Humanity is the Ultimate Act of Leadership</p>
                 </div>
             </div>
         </div>
@@ -970,10 +1089,10 @@
         </div>
 
         <div class="relative z-10 max-w-5xl mx-auto px-8 text-center">
-            <h2 class="hero-display kinetic mb-2" style="font-size: clamp(4rem, 14vw, 12rem);">
+            <h2 class="hero-display kinetic mb-2" style="font-size: clamp(3rem, 11vw, 9rem);">
                 The Quiet
             </h2>
-            <h2 class="hero-serif text-primary mb-16" style="font-size: clamp(4rem, 14vw, 12rem); line-height: 0.85;">
+            <h2 class="hero-serif text-primary mb-16" style="font-size: clamp(3rem, 11vw, 9rem); line-height: 0.85;">
                 Line<span class="text-primary">.</span>
             </h2>
 
@@ -988,14 +1107,14 @@
                     "What would I be doing in this interaction if I trusted my <span class="text-primary">humanity</span> completely?"
                 </p>
                 <div class="h-px w-32 bg-primary/40 mx-auto mb-8"></div>
-                <p class="text-[10px] uppercase tracking-[0.6em] text-bone/45 font-bold">Resonance is the cure. Establish the line.</p>
+                <p class="text-[12px] uppercase tracking-[0.6em] text-bone/45 font-bold">Resonance is the cure. Establish the line.</p>
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-center gap-10">
                 <a href="#" id="reserveSeatBtn" class="available-now-btn px-14 py-6 rounded-sm text-white font-bold text-sm tracking-[0.3em] uppercase shadow-2xl">
                     Reserve Your Seat
                 </a>
-                <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-bone transition-all text-[10px] font-bold uppercase tracking-[0.55em] border-b border-primary/30 pb-1">
+                <a href="https://tristianwalker.com" target="_blank" class="text-primary hover:text-bone transition-all text-[12px] font-bold uppercase tracking-[0.55em] border-b border-primary/30 pb-1">
                     Back to TristianWalker.com
                 </a>
             </div>
@@ -1014,7 +1133,7 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-8">
             <div class="mb-20 cell">
-                <div class="inline-flex items-center gap-3 mb-6 text-[10px] font-bold text-ink/40 uppercase tracking-[0.55em]">
+                <div class="inline-flex items-center gap-3 mb-6 text-[12px] font-bold text-ink/40 uppercase tracking-[0.55em]">
                     <span class="hairline"></span> The Dossier
                 </div>
                 <h2 class="hero-display text-ink" style="font-size: clamp(3rem, 7vw, 6rem);">
@@ -1026,33 +1145,33 @@
                 <div class="space-y-7">
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">01.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Scott A. Snook</span><br/><span class="hero-serif text-ink/60">Friendly Fire</span> — Defining Practical Drift and normalization of deviance.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Scott A. Snook</span><br/><span class="hero-serif text-ink/60">Friendly Fire</span> — Defining Practical Drift and normalization of deviance.</div>
                     </div>
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">02.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Burnett &amp; Evans</span><br/><span class="hero-serif text-ink/60">Designing Your Life</span> — Prototyping and the Gravity Problem.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Burnett &amp; Evans</span><br/><span class="hero-serif text-ink/60">Designing Your Life</span> — Prototyping and the Gravity Problem.</div>
                     </div>
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">03.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Hyatt &amp; Harkavy</span><br/><span class="hero-serif text-ink/60">Living Forward</span> — Reactive drift and the 7 Life Domains.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Hyatt &amp; Harkavy</span><br/><span class="hero-serif text-ink/60">Living Forward</span> — Reactive drift and the 7 Life Domains.</div>
                     </div>
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">04.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Junko Okada</span><br/><span class="hero-serif text-ink/60">The Success Trap</span> — Achievement as a potential cage for identity.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Junko Okada</span><br/><span class="hero-serif text-ink/60">The Success Trap</span> — Achievement as a potential cage for identity.</div>
                     </div>
                 </div>
                 <div class="space-y-7">
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">05.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Julia Christina</span><br/><span class="hero-serif text-ink/60">Values Compass</span> — Shift from destination-mapping to value-alignment.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Julia Christina</span><br/><span class="hero-serif text-ink/60">Values Compass</span> — Shift from destination-mapping to value-alignment.</div>
                     </div>
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">06.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Jen Green</span><br/><span class="hero-serif text-ink/60">Evolutionary Scope</span> — Drift as data for intentional momentum redirection.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Jen Green</span><br/><span class="hero-serif text-ink/60">Evolutionary Scope</span> — Drift as data for intentional momentum redirection.</div>
                     </div>
                     <div class="cell flex gap-6 items-start">
                         <span class="hero-serif text-primary text-2xl flex-shrink-0">07.</span>
-                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[10px]">Systems Theory</span><br/><span class="hero-serif text-ink/60">Concept Drift</span> — Parallels between data decay and strategic misalignment.</div>
+                        <div><span class="font-bold text-ink uppercase tracking-[0.18em] text-[12px]">Systems Theory</span><br/><span class="hero-serif text-ink/60">Concept Drift</span> — Parallels between data decay and strategic misalignment.</div>
                     </div>
                 </div>
             </div>
@@ -1069,12 +1188,12 @@
                 <span class="text-primary italic font-normal mx-2">|</span>
                 <span class="text-primary italic font-normal">The Quiet Line</span>
             </div>
-            <div class="mt-6 flex justify-center gap-10 text-[9px] font-bold uppercase tracking-[0.45em] text-ink/40">
+            <div class="mt-6 flex justify-center gap-10 text-[11px] font-bold uppercase tracking-[0.45em] text-ink/40">
                 <a href="https://thequietlinebook.com" target="_blank" class="hover:text-primary transition-colors">thequietlinebook.com</a>
                 <a href="https://tristianwalker.com" target="_blank" class="hover:text-primary transition-colors">tristianwalker.com</a>
             </div>
         </div>
-        <p class="text-[9px] font-bold text-ink/25 tracking-[0.7em] uppercase">© 2026 Tristian Walker Ecosystem</p>
+        <p class="text-[11px] font-bold text-ink/25 tracking-[0.7em] uppercase">© 2026 Tristian Walker Ecosystem</p>
     </footer>
 
     <script>
@@ -1156,43 +1275,87 @@
         });
 
         // ─── AUDIO PLAYER (teaser narration: Brian VO + drone) ───────
-        const audio = document.getElementById('mainAudio');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const progressBar = document.getElementById('audioProgress');
-        const audioTimer = document.getElementById('audioTimer');
-        function fmtTime(t, total) {
-            const mm = (n) => Math.floor(Math.max(0, n) % 60).toString().padStart(2, '0');
-            const m = (n) => Math.floor(Math.max(0, n) / 60);
-            return `${m(t)}:${mm(t)} / ${m(total)}:${mm(total)}`;
-        }
-        document.getElementById('audioToggle').addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
+        // Icons + now-playing stage are driven from <audio> events
+        // (not from click handlers) so state never desyncs.
+        (function(){
+            const audio = document.getElementById('mainAudio');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const progressBar = document.getElementById('audioProgress');
+            const audioTimer = document.getElementById('audioTimer');
+            const toggle = document.getElementById('audioToggle');
+            const npStage = document.getElementById('npStage');
+            const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
+
+            // Caption schedule (seconds) — matches the V.O. timing in audio.mp3
+            const SCHEDULE = [
+                { idx: 0, start: 3.0,  end: 7.5  },   // "In every interaction…"
+                { idx: 1, start: 7.5,  end: 12.5 },   // "…there is a quiet line."
+                { idx: 2, start: 12.5, end: 19.5 },   // "between presence and process."
+                { idx: 3, start: 19.5, end: 27.5 },   // "task overrules the human…"
+                { idx: 4, start: 27.5, end: 33.5 },   // "Most never notice it. The few who do…"
+                { idx: 5, start: 33.5, end: 42.5 },   // Title card
+                { idx: 6, start: 42.5, end: 46.0 }    // "A lecture by Tristian Walker."
+            ];
+
+            function fmtTime(t, total) {
+                const mm = (n) => Math.floor(Math.max(0, n) % 60).toString().padStart(2, '0');
+                const m  = (n) => Math.floor(Math.max(0, n) / 60);
+                return `${m(t)}:${mm(t)} / ${m(total)}:${mm(total)}`;
+            }
+            function setCapsForTime(t){
+                if (!npCaps.length) return;
+                SCHEDULE.forEach(cue => {
+                    const el = npCaps[cue.idx];
+                    if (!el) return;
+                    el.classList.toggle('show', t >= cue.start && t < cue.end);
+                });
+            }
+            function clearCaps(){ npCaps.forEach(el => el.classList.remove('show')); }
+
+            // CLICK = pure toggle. Don't touch icons here — let events do it.
+            toggle.addEventListener('click', () => {
+                if (audio.paused) audio.play().catch(() => {});
+                else audio.pause();
+            });
+
+            audio.addEventListener('play', () => {
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
-            } else {
-                audio.pause();
+                if (npStage) { npStage.classList.add('show'); npStage.setAttribute('aria-hidden', 'false'); }
+            });
+            audio.addEventListener('pause', () => {
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
-            }
-        });
-        audio.addEventListener('timeupdate', () => {
-            const dur = audio.duration || 45;
-            if (audio.duration) {
-                progressBar.style.width = ((audio.currentTime / dur) * 100) + '%';
-            }
-            if (audioTimer) audioTimer.textContent = fmtTime(audio.currentTime || 0, dur);
-        });
-        audio.addEventListener('loadedmetadata', () => {
-            if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
-        });
-        audio.addEventListener('ended', () => {
-            playIcon.classList.remove('hidden');
-            pauseIcon.classList.add('hidden');
-            progressBar.style.width = '0%';
-            if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
-        });
+                if (npStage && (audio.ended || audio.currentTime === 0)) {
+                    npStage.classList.remove('show');
+                    npStage.setAttribute('aria-hidden', 'true');
+                    clearCaps();
+                }
+            });
+            audio.addEventListener('ended', () => {
+                progressBar.style.width = '0%';
+                if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
+                if (npStage) {
+                    npStage.classList.remove('show');
+                    npStage.setAttribute('aria-hidden', 'true');
+                }
+                clearCaps();
+            });
+            audio.addEventListener('timeupdate', () => {
+                const t = audio.currentTime || 0;
+                const dur = audio.duration || 45;
+                progressBar.style.width = ((t / dur) * 100) + '%';
+                if (audioTimer) audioTimer.textContent = fmtTime(t, dur);
+                setCapsForTime(t);
+            });
+            audio.addEventListener('loadedmetadata', () => {
+                if (audioTimer) audioTimer.textContent = fmtTime(0, audio.duration || 45);
+            });
+            audio.addEventListener('error', (e) => {
+                console.warn('Audio error', audio.error);
+            });
+        })();
 
         // ─── KIT EMAIL CAPTURE ───────────────────────────────────────
         async function subscribeEmail(email, formEl, wrapperEl) {
