@@ -1,0 +1,36 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.python-version
+
+# Office lock files
+~$*
+
+# Node / Remotion
+node_modules/
+trailer/node_modules/
+trailer/out/
+
+# Build intermediates (final trailer.mp4 is committed; intermediates are not)
+trailer-assets/
+*.tmp.mp3
+*.tmp.wav
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
+
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+*.pem
+secrets/
