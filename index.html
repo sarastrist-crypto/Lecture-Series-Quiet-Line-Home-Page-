@@ -469,9 +469,9 @@
             position: fixed;
             bottom: 4.75rem;
             left: 50%;
-            width: 90%;
-            max-width: 460px;
-            height: 116px;
+            width: 92%;
+            max-width: 540px;
+            height: 132px;
             z-index: 89;
             border-radius: 16px;
             overflow: hidden;
@@ -544,7 +544,7 @@
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
             color: #F5F1E8;
-            font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+            font-size: clamp(1.5rem, 3.6vw, 2.25rem);
             letter-spacing: -0.02em;
             line-height: 0.9;
         }
@@ -552,13 +552,22 @@
             font-family: 'Fraunces', serif;
             font-style: italic; font-weight: 300;
             color: #C4A484;
-            margin-top: 0.3rem;
-            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+            margin-top: 0.35rem;
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
             letter-spacing: -0.02em;
+        }
+        .np-title .byline {
+            margin-top: 0.55rem;
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(8px, 1vw, 10px);
+            font-weight: 700;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(245,241,232,0.55);
         }
 
         @media (max-width: 768px) {
-            .np-stage { height: 96px; bottom: 4rem; max-width: calc(100% - 1.5rem); border-radius: 14px; }
+            .np-stage { height: 110px; bottom: 4rem; max-width: calc(100% - 1rem); border-radius: 14px; }
             .np-cap { font-size: 0.92rem; padding: 0.85rem 1rem; line-height: 1.2; }
         }
 
@@ -685,16 +694,17 @@
     <!-- ═══ NOW-PLAYING STAGE (visible only while audio is playing) ═══ -->
     <div class="np-stage" id="npStage" aria-hidden="true">
         <div class="np-fog" aria-hidden="true"></div>
-        <div class="np-cap" data-cap="0"><span class="np-line">In every interaction<span style="color:#C4A484;">…</span></span></div>
-        <div class="np-cap" data-cap="1"><span class="np-line">…there is a <em>quiet line</em>.</span></div>
-        <div class="np-cap" data-cap="2"><span class="np-line">It is the line between <em>presence</em> and <em>process</em>.</span></div>
-        <div class="np-cap" data-cap="3"><span class="np-line">When the task overrules the human, <em>character drifts</em>.</span></div>
-        <div class="np-cap" data-cap="4"><span class="np-line">Most never notice it. <em>The few who do…</em></span></div>
-        <div class="np-title" data-cap="5">
+        <div class="np-cap" data-cap="0"><span class="np-line">In every interaction, there is a <em>quiet line</em>.</span></div>
+        <div class="np-cap" data-cap="1"><span class="np-line">Between <em>presence</em> and <em>process</em>.</span></div>
+        <div class="np-cap" data-cap="2"><span class="np-line">When the task overrules the human, <em>character drifts</em>.</span></div>
+        <div class="np-cap" data-cap="3"><span class="np-line">Most never notice. <em>The few who do — take action.</em></span></div>
+        <div class="np-cap" data-cap="4"><span class="np-line">For those who've drifted — numb to <em>what could still be</em>.</span></div>
+        <div class="np-cap" data-cap="5"><span class="np-line"><em>Join me.</em> Explore the possibilities of you.</span></div>
+        <div class="np-title" data-cap="6">
             <div class="display">Professional Drift</div>
             <div class="serif">The Quiet Line.</div>
+            <div class="byline">A lecture by Tristian Walker</div>
         </div>
-        <div class="np-cap" data-cap="6"><span class="np-line">A lecture by Tristian Walker.</span></div>
     </div>
 
     <!-- ═══ FLOATING AUDIO BAR ═══ -->
@@ -759,12 +769,13 @@
                 <span class="hairline"></span>
             </div>
 
-            <h1 class="hero-display kinetic mb-2" style="font-size: clamp(3rem, 10vw, 8rem);">
+            <h1 class="hero-display kinetic" style="font-size: clamp(3rem, 9.5vw, 7.5rem); line-height: 0.95; margin-bottom: 0.75rem;">
                 The Interaction
             </h1>
-            <h1 class="hero-display mb-12" style="font-size: clamp(2.5rem, 8vw, 6.5rem);">
-                <span class="hero-serif text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;">Nobody Meant</span>
-                <br/>
+            <div class="text-primary" style="font-family:'Fraunces',serif;font-style:italic;font-weight:300;font-size: clamp(2.4rem, 7.5vw, 6rem); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 0.5rem; padding-bottom: 0.18em;">
+                Nobody Meant
+            </div>
+            <h1 class="hero-display" style="font-size: clamp(2.4rem, 7.5vw, 6rem); line-height: 0.95; margin-bottom: 3rem;">
                 <span class="ghost-fill">to Lose</span><span class="text-primary">.</span>
             </h1>
 
@@ -1288,17 +1299,17 @@
             const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
 
             // Caption schedule (seconds) — generated from per-phrase Brian
-            // segment durations (see _build/gen_audio_v2.py). Each cue starts
-            // ~0.25s before the spoken phrase and lingers ~0.35s after, so
-            // the caption visibly anticipates and tails the audio.
+            // segment durations (see _build/gen_audio_v3.py). Total runtime
+            // is now ~31s with the expanded CTA dialogue. Each cue brackets
+            // the spoken phrase by ~0.2s.
             const SCHEDULE = [
-                { idx: 0, start: 2.75,  end: 5.15  },   // "In every interaction…"
-                { idx: 1, start: 5.10,  end: 7.35  },   // "…there is a quiet line."
-                { idx: 2, start: 7.50,  end: 10.95 },   // "between presence and process."
-                { idx: 3, start: 11.00, end: 15.31 },   // "task overrules the human, character drifts."
-                { idx: 4, start: 15.31, end: 18.76 },   // "Most never notice it. The few who do…"
-                { idx: 5, start: 18.81, end: 42.30 },   // Title card (visual beat over drone)
-                { idx: 6, start: 42.25, end: 44.65 }    // "A lecture by Tristian Walker."
+                { idx: 0, start:  0.80, end:  4.88 },   // "In every interaction…"
+                { idx: 1, start:  4.33, end:  8.26 },   // "Between presence and process."
+                { idx: 2, start:  7.81, end: 12.52 },   // "…character drifts."
+                { idx: 3, start: 12.07, end: 16.86 },   // "Most never notice. The few who do — take action."
+                { idx: 4, start: 16.56, end: 22.41 },   // "For those who've drifted — numb to what could still be."
+                { idx: 5, start: 22.26, end: 27.50 },   // "Join me. Explore the possibilities of you."
+                { idx: 6, start: 27.50, end: 31.20 }    // Title card + byline composite
             ];
 
             function fmtTime(t, total) {
