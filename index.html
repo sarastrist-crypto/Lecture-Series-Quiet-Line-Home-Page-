@@ -724,7 +724,7 @@
                 <div id="audioProgress" class="h-full bg-primary w-0 transition-all duration-300"></div>
             </div>
         </div>
-        <audio id="mainAudio" src="/audio.mp3" preload="metadata"></audio>
+        <audio id="mainAudio" src="/audio.mp3?v=4" preload="metadata"></audio>
     </div>
 
     <!-- ═══ NAVIGATION ═══ -->
@@ -1298,18 +1298,18 @@
             const npStage = document.getElementById('npStage');
             const npCaps = npStage ? npStage.querySelectorAll('[data-cap]') : [];
 
-            // Caption schedule (seconds) — generated from per-phrase Brian
-            // segment durations (see _build/gen_audio_v3.py). Total runtime
-            // is now ~31s with the expanded CTA dialogue. Each cue brackets
-            // the spoken phrase by ~0.2s.
+            // Caption schedule (seconds) — v4 tight-pacing build
+            // (see _build/gen_audio_v4.py). Total runtime ~28s, gaps
+            // between phrases 0.2–0.28s. Each cue brackets the spoken
+            // phrase by ~0.15s.
             const SCHEDULE = [
-                { idx: 0, start:  0.80, end:  4.88 },   // "In every interaction…"
-                { idx: 1, start:  4.33, end:  8.26 },   // "Between presence and process."
-                { idx: 2, start:  7.81, end: 12.52 },   // "…character drifts."
-                { idx: 3, start: 12.07, end: 16.86 },   // "Most never notice. The few who do — take action."
-                { idx: 4, start: 16.56, end: 22.41 },   // "For those who've drifted — numb to what could still be."
-                { idx: 5, start: 22.26, end: 27.50 },   // "Join me. Explore the possibilities of you."
-                { idx: 6, start: 27.50, end: 31.20 }    // Title card + byline composite
+                { idx: 0, start:  0.35, end:  3.78 },   // "In every interaction…"
+                { idx: 1, start:  3.63, end:  6.91 },   // "Between presence and process."
+                { idx: 2, start:  6.78, end: 10.84 },   // "…character drifts."
+                { idx: 3, start: 10.74, end: 14.88 },   // "Most never notice. The few who do — take action."
+                { idx: 4, start: 14.81, end: 20.31 },   // "For those who've drifted — numb to what could still be."
+                { idx: 5, start: 20.18, end: 25.50 },   // "Join me. Explore the possibilities of you."
+                { idx: 6, start: 25.50, end: 28.20 }    // Title card + byline composite
             ];
 
             function fmtTime(t, total) {
