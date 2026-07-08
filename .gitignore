@@ -35,3 +35,6 @@ Thumbs.db
 *.pem
 secrets/
 .vercel
+
+# graphify-generated knowledge graph (local only)
+graphify-out/
