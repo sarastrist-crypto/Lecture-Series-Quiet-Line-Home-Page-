@@ -2,6 +2,14 @@
 
 Guidance for Claude Code working in this repo.
 
+## 🏷 Session titles: every new conversation opens with a three-word theme, in caps
+
+**Standing operator rule (Tristian, July 30, 2026), every repo, every new
+conversation.** The first reply of a new chat session opens by presenting the
+session's theme as a **succinct three-word title in ALL CAPS** (e.g. **SILO
+NAMING SYSTEM**), then answers the inquiry. Presented once, at the top of the
+first response only. The canonical version lives in the `cobbled-works` CLAUDE.md.
+
 ## ⏱ Stop a watch at 3 hours — standing rule (July 28, 2026)
 
 **Standing operator rule (Tristian), applies in EVERY repo and EVERY session
