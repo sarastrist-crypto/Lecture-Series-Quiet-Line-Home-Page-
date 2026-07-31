@@ -2,6 +2,13 @@
 
 Guidance for Claude Code working in this repo.
 
+## 🏷 Three-word session title
+
+**Standing operator rule (Tristian, July 31, 2026), every repo, every session.**
+The first reply of a session leads with a **bolded three-word title** naming what
+the session is about, before anything else. Exactly three words, restated on a
+genuine pivot, never skipped. Canonical version: the `cobbled-works` CLAUDE.md.
+
 ## ⏱ Stop a watch at 3 hours — standing rule (July 28, 2026)
 
 **Standing operator rule (Tristian), applies in EVERY repo and EVERY session
